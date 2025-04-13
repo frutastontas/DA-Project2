@@ -7,5 +7,9 @@ set( CMAKE_BUILD_TYPE_TMP "${CMAKE_BUILD_TYPE}" )
 set( CMAKE_BUILD_TYPE "Release" )
 
 add_executable(Knapsack main.cpp
+        src/classes/Pallet.cpp
+        src/classes/Truck.cpp
+        src/Menu.cpp
+        src/Dataparser.cpp
 
 )
