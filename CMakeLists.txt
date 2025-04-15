@@ -11,5 +11,6 @@ add_executable(Knapsack main.cpp
         src/classes/Truck.cpp
         src/Menu.cpp
         src/Dataparser.cpp
+        src/Solver.cpp
 
 )
