@@ -7,7 +7,11 @@ Menu::Menu() : dataLoaded(false), resultsAvailable(false) {}
 
 void Menu::showMainMenu() {
     while(true) {
-        system("clear || cls");
+#ifdef _WIN32
+        system("cls");
+#else
+        system("clear");
+#endif
         displayHeader("MAIN MENU");
 
         std::cout << "1. Load Data Files\n"
@@ -24,6 +28,7 @@ void Menu::showMainMenu() {
 
         switch(choice) {
             case 1: loadData(); break;
+            case 2: solverSelectionMenu(); break;
             case 6: exitProgram(); return;
             default:
                 std::cout << "Invalid option!\n";
@@ -31,8 +36,6 @@ void Menu::showMainMenu() {
         }
     }
 }
-
-
 
 void Menu::displayHeader(const std::string& title) const {
     std::cout << "\n=== " << title << " ===\n\n";
@@ -48,13 +51,13 @@ void Menu::pressToContinue() const {
     std::cin.get();
 }
 
-
 void Menu::solverSelectionMenu() {
     displayHeader("SELECT SOLVER");
     std::cout << "1. Greedy Algorithm\n"
-              << "2. Backtracking with Pruning\n"
-              << "3. Dynamic Programming\n"
-              << "4. Return to Main Menu\n\n"
+              << "2. Backtracking \n"
+              << "3. Branch and Bound\n"
+              << "4. Dynamic Programming\n"
+              << "5. Return to Main Menu\n\n"
               << "Select solver type: ";
 
     int choice;
@@ -62,6 +65,12 @@ void Menu::solverSelectionMenu() {
 
     try {
         switch(choice) {
+            case 2:
+                solveCase1(this->truck, this->pallets);
+                break;
+            case 3:
+                solveCase2(this->truck, this->pallets);
+                break;
 
             default: throw std::invalid_argument("Invalid selection");
         }
@@ -94,8 +103,8 @@ void Menu::loadData() {
         return;
     }
 
-    std::string truckFile = "TruckAndPallets_" + currentDatasetId + ".csv";
-    std::string palletFile = "Pallets_" + currentDatasetId + ".csv";
+    std::string truckFile = "../data/TruckAndPallets_" + currentDatasetId + ".csv";
+    std::string palletFile = "../data/Pallets_" + currentDatasetId + ".csv";
 
     try {
         this->truck = DataParser::parseTruck(truckFile);
@@ -105,6 +114,7 @@ void Menu::loadData() {
         std::cout << "Successfully loaded dataset " << currentDatasetId << "!\n"
                   << "Truck file: " << truckFile << "\n"
                   << "Pallet file: " << palletFile << "\n";
+        std::cout << truck.getMaxCapacity()<< " " << truck.getPalletsCapacity()<< std::endl;
     } catch(const std::exception& e) {
         std::cerr << "Error loading dataset " << currentDatasetId << ": " << e.what() << "\n";
         dataLoaded = false;

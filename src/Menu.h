@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Dataparser.h"
+#include "Solver.h"
 
 class Menu {
 public:
