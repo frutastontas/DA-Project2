@@ -71,6 +71,9 @@ void Menu::solverSelectionMenu() {
             case 3:
                 solveCase2(this->truck, this->pallets);
                 break;
+            case 4:
+                solveDP( this->pallets, this->truck);
+                break;
 
             default: throw std::invalid_argument("Invalid selection");
         }

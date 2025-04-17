@@ -140,4 +140,43 @@ void solveCase2(Truck truck, std::vector<Pallet>& pallets){
     }
 }
 
+void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
+    int maxW = truck.getMaxCapacity();
+    int maxP = truck.getPalletsCapacity();
+
+    std::vector<std::vector<int>> dp(maxW + 1, std::vector<int>(maxP + 1, 0));
+    std::vector<std::vector<std::vector<int>>> chosen(maxW + 1, std::vector<std::vector<int>>(maxP + 1));
+
+    int bestProfit = 0;
+    int bestW = 0, bestK = 0;
+
+    for (const Pallet& p : pallets) {
+        for (int w = maxW; w >= p.getWeight(); --w) {
+            for (int k = maxP; k >= 1; --k) {
+                int prevProfit = dp[w - p.getWeight()][k - 1];
+                int newProfit = prevProfit + p.getProfit();
+                if (newProfit > dp[w][k]) {
+                    dp[w][k] = newProfit;
+                    chosen[w][k] = chosen[w - p.getWeight()][k - 1];
+                    chosen[w][k].push_back(p.getId());
+
+                    if (newProfit > bestProfit) {
+                        bestProfit = newProfit;
+                        bestW = w;
+                        bestK = k;
+                    }
+                }
+            }
+        }
+    }
+
+    std::cout << "Best profit: " << bestProfit << std::endl;
+    std::cout << "Pallets used (IDs): ";
+    for (int id : chosen[bestW][bestK]) {
+        std::cout << id << " ";
+    }
+    std::cout << "\n";
+
+}
+
 
