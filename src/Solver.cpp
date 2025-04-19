@@ -36,6 +36,10 @@ bool sortByRatio(const Pallet& pallet1, const Pallet& pallet2) {
     return pallet1.getRatio() > pallet2.getRatio();
 }
 
+bool sortByProfit(const Pallet& pallet1, const Pallet& pallet2) {
+    return pallet1.getProfit() > pallet2.getProfit();
+}
+
 int computeUpperBound(const std::vector<Pallet>& pallets, const Truck& truck,
                       int index, int currentProfit, int currentWeight) {
     int remainingWeight = truck.getMaxCapacity() - currentWeight;
@@ -178,5 +182,72 @@ void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     std::cout << "\n";
 
 }
+
+int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector<int>& bestCombo) {
+    int bestProfit = 0;
+    int remainingWeight = truck.getMaxCapacity();
+    int currentPallets = 0;
+
+    for (const Pallet& p : pallets) {
+        if (currentPallets >= truck.getPalletsCapacity()) break;
+
+        if (p.getWeight() <= remainingWeight) {
+            bestProfit += p.getProfit();
+            remainingWeight -= p.getWeight();
+            currentPallets++;
+            bestCombo.push_back(p.getId());
+        }
+    }
+    return bestProfit;
+}
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <chrono>
+#include <thread>
+
+void KnapsackApproximation(const Truck& truck, std::vector<Pallet>& pallets) {
+    std::vector<int> bestComboProfit;
+    std::vector<int> bestComboRatio;
+
+    // Sort by profit/weight ratio and run greedy
+    std::sort(pallets.begin(), pallets.end(), sortByRatio);
+    int ResultRatio = GreedyKnapsack(truck, pallets, bestComboRatio);
+
+    // Sort by profit and run greedy
+    std::sort(pallets.begin(), pallets.end(), sortByProfit);
+    int ResultProfit = GreedyKnapsack(truck, pallets, bestComboProfit);
+
+    // Decide which result is better
+    std::vector<int> bestCombo;
+    int bestResult;
+    std::string strategy;
+
+    if (ResultProfit >= ResultRatio) {
+        bestResult = ResultProfit;
+        bestCombo = bestComboProfit;
+        strategy = "Profit-based Greedy";
+    } else {
+        bestResult = ResultRatio;
+        bestCombo = bestComboRatio;
+        strategy = "Ratio-based Greedy";
+    }
+
+    // Print results
+    std::cout << "=== Approximation Result ===\n";
+    std::cout << "Strategy used: " << strategy << std::endl;
+    std::cout << "Total profit: " << bestResult << std::endl;
+    std::cout << "Pallets used (IDs): ";
+    int totalWeight = 0;
+    for (int id : bestCombo) {
+        std::cout << id << " ";
+    }
+
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+}
+
+
 
 

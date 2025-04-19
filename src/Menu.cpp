@@ -53,7 +53,7 @@ void Menu::pressToContinue() const {
 
 void Menu::solverSelectionMenu() {
     displayHeader("SELECT SOLVER");
-    std::cout << "1. Greedy Algorithm\n"
+    std::cout << "1. Approximation\n"
               << "2. Backtracking \n"
               << "3. Branch and Bound\n"
               << "4. Dynamic Programming\n"
@@ -65,6 +65,9 @@ void Menu::solverSelectionMenu() {
 
     try {
         switch(choice) {
+            case 1:
+                KnapsackApproximation(truck, pallets);
+                break;
             case 2:
                 solveCase1(this->truck, this->pallets);
                 break;
