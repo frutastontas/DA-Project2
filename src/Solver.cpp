@@ -7,30 +7,30 @@
 void backtrack(const std::vector<Pallet>& pallets, const Truck& truck, int index, int currentProfit,
                int currentWeight, int currentPallets, std::vector<int>& currentCombo,
                std::vector<int>& bestCombo, int& bestProfit) {
-    if (currentWeight > truck.getMaxCapacity() || currentPallets > truck.getPalletsCapacity()) {
+    if (index == pallets.size()) {
+        if (currentWeight <= truck.getMaxCapacity() &&
+            currentPallets <= truck.getPalletsCapacity() &&
+            currentProfit > bestProfit) {
+            bestProfit = currentProfit;
+            bestCombo = currentCombo;
+            }
         return;
     }
 
-    if (currentProfit > bestProfit) {
-        bestProfit = currentProfit;
-        bestCombo = currentCombo;
-    }
-
-    if (index == pallets.size()) return;
-
     // Exclude current pallet
-    backtrack(pallets, truck, index+1, currentProfit, currentWeight, currentPallets,
-             currentCombo, bestCombo, bestProfit);
+    backtrack(pallets, truck, index + 1, currentProfit, currentWeight, currentPallets,
+              currentCombo, bestCombo, bestProfit);
 
     // Include current pallet
     currentCombo.push_back(pallets[index].getId());
     backtrack(pallets, truck, index + 1,
-             currentProfit + pallets[index].getProfit(),
-             currentWeight + pallets[index].getWeight(),
-             currentPallets + 1,
-             currentCombo, bestCombo, bestProfit);
+              currentProfit + pallets[index].getProfit(),
+              currentWeight + pallets[index].getWeight(),
+              currentPallets + 1,
+              currentCombo, bestCombo, bestProfit);
     currentCombo.pop_back();
 }
+
 
 bool sortByRatio(const Pallet& pallet1, const Pallet& pallet2) {
     return pallet1.getRatio() > pallet2.getRatio();
@@ -40,23 +40,30 @@ bool sortByProfit(const Pallet& pallet1, const Pallet& pallet2) {
     return pallet1.getProfit() > pallet2.getProfit();
 }
 
-int computeUpperBound(const std::vector<Pallet>& pallets, const Truck& truck,
+double computeUpperBound(const std::vector<Pallet>& pallets, const Truck& truck,
                       int index, int currentProfit, int currentWeight) {
     int remainingWeight = truck.getMaxCapacity() - currentWeight;
     double bound = currentProfit;
 
-    for (int i = index; i < pallets.size(); ++i) {
-        if (pallets[i].getWeight() <= remainingWeight) {
-            remainingWeight -= pallets[i].getWeight();
-            bound += pallets[i].getProfit();
-        } else {
-            // Take fractionally (for upper bound estimation)
-            bound += pallets[i].getProfit() * ((double)remainingWeight / pallets[i].getWeight());
-            break;
-        }
+    std::vector<Pallet> remaining;
+    for (int i = index; i < pallets.size(); i++) {
+        remaining.push_back(pallets[i]);
     }
 
-    return static_cast<int>(bound);
+    std::sort(remaining.begin(), remaining.end(), sortByRatio);
+
+    for (const auto& pallet : remaining) {
+        if (pallet.getWeight() <= remainingWeight) {
+            remainingWeight -= pallet.getWeight();
+            bound += pallet.getProfit();
+        } else {
+            bound += pallet.getProfit() * ((double)remainingWeight / pallet.getWeight());
+            break;
+        }
+        if (remainingWeight == 0) break;
+    }
+
+    return bound;
 }
 
 
@@ -87,16 +94,15 @@ void backtrackWithBound(const std::vector<Pallet>& pallets, const Truck& truck, 
                int currentProfit, int currentWeight, int currentPallets,
                std::vector<int>& currentCombo, std::vector<int>& bestCombo, int& bestProfit) {
 
-    if (currentWeight > truck.getMaxCapacity() || currentPallets > truck.getPalletsCapacity()) {
+    if (index == pallets.size()) {
+        if (currentWeight <= truck.getMaxCapacity() &&
+            currentPallets <= truck.getPalletsCapacity() &&
+            currentProfit > bestProfit) {
+            bestProfit = currentProfit;
+            bestCombo = currentCombo;
+            }
         return;
     }
-
-    if (currentProfit > bestProfit) {
-        bestProfit = currentProfit;
-        bestCombo = currentCombo;
-    }
-
-    if (index == pallets.size()) return;
 
     // --- Bounding ---
     int upperBound = computeUpperBound(pallets, truck, index, currentProfit, currentWeight);
@@ -134,8 +140,6 @@ void solveCase2(Truck truck, std::vector<Pallet>& pallets){
     std::vector<int> bestCombo;
     int bestProfit =0;
     std::vector<int> currentCombo;
-
-    std::sort(pallets.begin(), pallets.end(), sortByRatio);
 
     backtrackWithBound(pallets, truck, 0, 0, 0, 0, currentCombo, bestCombo, bestProfit);
     std::cout<<bestProfit<<std::endl;
