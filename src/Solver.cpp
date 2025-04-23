@@ -17,6 +17,13 @@ void backtrack(const std::vector<Pallet>& pallets, const Truck& truck, int index
         return;
     }
 
+    if (currentWeight <= truck.getMaxCapacity() &&
+            currentPallets <= truck.getPalletsCapacity() &&
+            currentProfit > bestProfit) {
+        bestProfit = currentProfit;
+        bestCombo = currentCombo;
+            }
+
     // Exclude current pallet
     backtrack(pallets, truck, index + 1, currentProfit, currentWeight, currentPallets,
               currentCombo, bestCombo, bestProfit);
@@ -105,8 +112,8 @@ void backtrackWithBound(const std::vector<Pallet>& pallets, const Truck& truck, 
     }
 
     // --- Bounding ---
-    int upperBound = computeUpperBound(pallets, truck, index, currentProfit, currentWeight);
-    if (upperBound <= bestProfit) return; // Prune branch
+    double upperBound = computeUpperBound(pallets, truck, index, currentProfit, currentWeight);
+    if (upperBound <= (double)bestProfit) return; // Prune branch
 
     // Exclude current pallet
     backtrackWithBound(pallets, truck, index + 1, currentProfit, currentWeight, currentPallets,

@@ -6,13 +6,13 @@ private:
     int id;
     int weight;
     int profit;
-    float ratio;
+    double ratio;
 
 public:
     Pallet(int id,int weight, int profit);
     int getWeight() const;
     int getProfit() const;
-    int getRatio() const;
+    double getRatio() const;
     int getId() const;
 };
 
