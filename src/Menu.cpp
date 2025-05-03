@@ -109,8 +109,8 @@ void Menu::loadData() {
         return;
     }
 
-    std::string truckFile = "../data/TruckAndPallets_" + currentDatasetId + ".csv";
-    std::string palletFile = "../data/Pallets_" + currentDatasetId + ".csv";
+    std::string truckFile = "../data/datasets-extra/TruckAndPallets_" + currentDatasetId + ".csv";
+    std::string palletFile = "../data/datasets-extra/Pallets_" + currentDatasetId + ".csv";
 
     try {
         this->truck = DataParser::parseTruck(truckFile);

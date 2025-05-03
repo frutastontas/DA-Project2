@@ -3,7 +3,22 @@
 
 #include <algorithm>
 
-
+/**
+ * @brief Solves the knapsack-like problem of selecting pallets to maximize profit using backtracking.
+ *
+ * This function implements a basic backtracking approach to explore all combinations of pallets, deciding whether
+ * to include or exclude each one based on current state and feasibility constraints (weight and number of pallets).
+ *
+ * @param pallets A vector of available pallets, each with a weight and profit.
+ * @param truck A Truck object containing maximum weight and pallet capacity constraints.
+ * @param index The current index of the pallet being considered.
+ * @param currentProfit The cumulative profit of the current selection of pallets.
+ * @param currentWeight The total weight of the current selection.
+ * @param currentPallets The number of pallets selected so far.
+ * @param currentCombo A vector storing the IDs of pallets in the current selection.
+ * @param bestCombo A vector to store the IDs of pallets forming the best (most profitable) selection.
+ * @param bestProfit A reference to the best profit found so far.
+ */
 void backtrack(const std::vector<Pallet>& pallets, const Truck& truck, int index, int currentProfit,
                int currentWeight, int currentPallets, std::vector<int>& currentCombo,
                std::vector<int>& bestCombo, int& bestProfit) {
@@ -16,13 +31,6 @@ void backtrack(const std::vector<Pallet>& pallets, const Truck& truck, int index
             }
         return;
     }
-
-    if (currentWeight <= truck.getMaxCapacity() &&
-            currentPallets <= truck.getPalletsCapacity() &&
-            currentProfit > bestProfit) {
-        bestProfit = currentProfit;
-        bestCombo = currentCombo;
-            }
 
     // Exclude current pallet
     backtrack(pallets, truck, index + 1, currentProfit, currentWeight, currentPallets,
@@ -47,6 +55,21 @@ bool sortByProfit(const Pallet& pallet1, const Pallet& pallet2) {
     return pallet1.getProfit() > pallet2.getProfit();
 }
 
+
+/**
+ * @brief Computes the theoretical upper bound of the profit for a given selection of pallets and the current state.
+ *
+ * This function estimates the maximum possible profit that can be achieved from the current state onward,
+ * by considering the remaining pallets and their profit-to-weight ratio. The upper bound is used for pruning
+ * the search space in the backtracking method.
+ *
+ * @param pallets A vector of available pallets, each with a weight and profit.
+ * @param truck A Truck object containing maximum weight and pallet capacity constraints.
+ * @param index The current index of the pallet being considered.
+ * @param currentProfit The cumulative profit of the current selection of pallets.
+ * @param currentWeight The total weight of the current selection.
+ * @return The upper bound of the profit that can be achieved from the current state onward.
+ */
 double computeUpperBound(const std::vector<Pallet>& pallets, const Truck& truck,
                       int index, int currentProfit, int currentWeight) {
     int remainingWeight = truck.getMaxCapacity() - currentWeight;
@@ -135,11 +158,16 @@ void solveCase1(Truck truck, const std::vector<Pallet>& pallets){
     std::vector<int> bestCombo;
     int bestProfit =0;
     std::vector<int> currentCombo;
+    auto start = std::chrono::high_resolution_clock::now();
     backtrack(pallets, truck, 0, 0, 0, 0, currentCombo, bestCombo, bestProfit);
-    std::cout<<bestProfit<<std::endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
     for (const int pallet : bestCombo) {
-        std::cout<<pallet<<std::endl;
+        std::cout<<pallet<<",";
     }
+    std::cout << "Time taken by solveCase1: " << duration.count() << " seconds\n";
+    std::cout<<bestProfit<<std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
 
@@ -147,15 +175,32 @@ void solveCase2(Truck truck, std::vector<Pallet>& pallets){
     std::vector<int> bestCombo;
     int bestProfit =0;
     std::vector<int> currentCombo;
-
+    auto start = std::chrono::high_resolution_clock::now();
     backtrackWithBound(pallets, truck, 0, 0, 0, 0, currentCombo, bestCombo, bestProfit);
-    std::cout<<bestProfit<<std::endl;
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
     for (const int pallet : bestCombo) {
-        std::cout<<pallet<<std::endl;
+        std::cout<<pallet<<",";
     }
+    std::cout << "Time taken by solveCase2: " << duration.count() << " seconds\n";
+    std::cout<<bestProfit<<std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
+
+/**
+ * @brief Solves the knapsack-like problem using dynamic programming.
+ *
+ * This function implements the classic dynamic programming solution for the knapsack problem,
+ * which fills a 2D DP table where each entry represents the maximum profit achievable for a
+ * given weight and pallet count. The solution uses a bottom-up approach to compute the maximum
+ * profit efficiently.
+ *
+ * @param pallets A vector of available pallets, each with a weight and profit.
+ * @param truck A Truck object containing maximum weight and pallet capacity constraints.
+ */
 void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
+    auto start = std::chrono::high_resolution_clock::now();
     int maxW = truck.getMaxCapacity();
     int maxP = truck.getPalletsCapacity();
 
@@ -184,16 +229,30 @@ void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
             }
         }
     }
-
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
     std::cout << "Best profit: " << bestProfit << std::endl;
     std::cout << "Pallets used (IDs): ";
     for (int id : chosen[bestW][bestK]) {
         std::cout << id << " ";
     }
     std::cout << "\n";
-
+    std::cout<<duration.count() << std::endl;
+    std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
+/**
+ * @brief Solves the knapsack-like problem using a greedy algorithm based on the profit-to-weight ratio.
+ *
+ * This function solves the problem by selecting pallets based on the highest profit-to-weight ratio.
+ * It continues adding pallets to the solution as long as the remaining weight capacity allows and the pallet
+ * count limit is not exceeded.
+ *
+ * @param truck A Truck object containing maximum weight and pallet capacity constraints.
+ * @param pallets A vector of available pallets, each with a weight and profit.
+ * @param bestCombo A vector to store the IDs of pallets forming the best (most profitable) selection.
+ * @return The total profit of the selected pallets.
+ */
 int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector<int>& bestCombo) {
     int bestProfit = 0;
     int remainingWeight = truck.getMaxCapacity();
