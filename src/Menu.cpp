@@ -16,9 +16,7 @@ void Menu::showMainMenu() {
 
         std::cout << "1. Load Data Files\n"
                   << "2. Select Solver Algorithm\n"
-                  << "3. Run Selected Solver\n"
-                  << "4. Compare All Solvers\n"
-                  << "5. Display Results\n"
+                  << "3. Compare to optimal\n"
                   << "6. Exit\n\n"
                   << "Select option: ";
 
