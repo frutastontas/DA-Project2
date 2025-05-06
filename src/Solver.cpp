@@ -27,10 +27,18 @@ void backtrack(const std::vector<Pallet>& pallets, const Truck& truck, int index
                std::vector<int>& bestCombo, int& bestProfit) {
     if (index == pallets.size()) {
         if (currentWeight <= truck.getMaxCapacity() &&
-            currentPallets <= truck.getPalletsCapacity() &&
-            currentProfit > bestProfit) {
-            bestProfit = currentProfit;
-            bestCombo = currentCombo;
+            currentPallets <= truck.getPalletsCapacity()
+            ) {
+            if (currentProfit > bestProfit) {
+                bestProfit = currentProfit;
+                bestCombo = currentCombo;
+            } else if (currentProfit == bestProfit) {
+                if (currentCombo.size() < bestCombo.size() ||
+                    (currentCombo.size() == bestCombo.size() && currentCombo < bestCombo)) {
+                    bestCombo = currentCombo;
+                    }
+            }
+
             }
         return;
     }
@@ -124,17 +132,24 @@ void backtrackWithBound(const std::vector<Pallet>& pallets, const Truck& truck, 
 
     if (index == pallets.size()) {
         if (currentWeight <= truck.getMaxCapacity() &&
-            currentPallets <= truck.getPalletsCapacity() &&
-            currentProfit > bestProfit) {
-            bestProfit = currentProfit;
-            bestCombo = currentCombo;
+            currentPallets <= truck.getPalletsCapacity()) {
+
+            if (currentProfit > bestProfit) {
+                bestProfit = currentProfit;
+                bestCombo = currentCombo;
+            } else if (currentProfit == bestProfit) {
+                if (currentCombo.size() < bestCombo.size() ||
+                    (currentCombo.size() == bestCombo.size() && currentCombo < bestCombo)) {
+                    bestCombo = currentCombo;
+                    }
+            }
             }
         return;
     }
 
     // --- Bounding ---
     double upperBound = computeUpperBound(pallets, truck, index, currentProfit, currentWeight);
-    if (upperBound <= (double)bestProfit) return; // Prune branch
+    if (upperBound < static_cast<double>(bestProfit)) return; // Prune branch
 
     // Exclude current pallet
     backtrackWithBound(pallets, truck, index + 1, currentProfit, currentWeight, currentPallets,
@@ -157,6 +172,7 @@ void backtrackWithBound(const std::vector<Pallet>& pallets, const Truck& truck, 
         currentCombo.pop_back(); // backtrack
     }
 }
+
 
 
 
@@ -221,31 +237,51 @@ void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
             for (int k = maxP; k >= 1; --k) {
                 int prevProfit = dp[w - p.getWeight()][k - 1];
                 int newProfit = prevProfit + p.getProfit();
+
                 if (newProfit > dp[w][k]) {
                     dp[w][k] = newProfit;
                     chosen[w][k] = chosen[w - p.getWeight()][k - 1];
                     chosen[w][k].push_back(p.getId());
+                }
+                else if (newProfit == dp[w][k]) {
+                    std::vector<int> newCombo = chosen[w - p.getWeight()][k - 1];
+                    newCombo.push_back(p.getId());
 
-                    if (newProfit > bestProfit) {
-                        bestProfit = newProfit;
-                        bestW = w;
-                        bestK = k;
+                    // Tie-breaking: prefer fewer pallets, then lexicographically smaller combo
+                    if (newCombo.size() < chosen[w][k].size() ||
+                        (newCombo.size() == chosen[w][k].size() && newCombo < chosen[w][k])) {
+                        chosen[w][k] = newCombo;
                     }
+                }
+
+                // Update best solution with tie-breaking
+                if (dp[w][k] > bestProfit ||
+                    (dp[w][k] == bestProfit &&
+                     (chosen[w][k].size() < chosen[bestW][bestK].size() ||
+                      (chosen[w][k].size() == chosen[bestW][bestK].size() &&
+                       chosen[w][k] < chosen[bestW][bestK])))) {
+                    bestProfit = dp[w][k];
+                    bestW = w;
+                    bestK = k;
                 }
             }
         }
     }
+
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
+
     std::cout << "Best profit: " << bestProfit << std::endl;
     std::cout << "Pallets used (IDs): ";
     for (int id : chosen[bestW][bestK]) {
         std::cout << id << " ";
     }
     std::cout << "\n";
-    std::cout<<duration.count() << std::endl;
+    std::cout << "Time taken by solveDP: " << duration.count() << " seconds\n";
+
     std::this_thread::sleep_for(std::chrono::seconds(2));
 }
+
 
 /**
  * @brief Greedy heuristic for approximate knapsack solution.
