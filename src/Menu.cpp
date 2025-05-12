@@ -32,6 +32,7 @@ void Menu::showMainMenu() {
                 std::cout << "Invalid option!\n";
                 pressToContinue();
         }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
 
@@ -46,10 +47,14 @@ void Menu::displaySeparator() const {
 void Menu::pressToContinue() const {
     std::cout << "\nPress Enter to continue...";
     std::cin.ignore();
-    std::cin.get();
 }
 
 void Menu::solverSelectionMenu() {
+    if (!dataLoaded) {
+        std::cout << "No data loaded!\n";
+        pressToContinue();
+        return;
+    }
     displayHeader("SELECT SOLVER");
     std::cout << "1. Approximation\n"
               << "2. Backtracking \n"
@@ -75,6 +80,8 @@ void Menu::solverSelectionMenu() {
             case 4:
                 solveDP( this->pallets, this->truck);
                 break;
+            case 5:
+                return;
 
             default: throw std::invalid_argument("Invalid selection");
         }

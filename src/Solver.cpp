@@ -332,17 +332,19 @@ int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector
  * @param truck Truck capacity constraints.
  * @param pallets List of available pallets.
  */
-void KnapsackApproximation(const Truck& truck, std::vector<Pallet>& pallets) {
+void KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets) {
     std::vector<int> bestComboProfit;
     std::vector<int> bestComboRatio;
 
+    std::vector<Pallet> copy_pallets = pallets;
+
     // Sort by profit/weight ratio and run greedy
-    std::sort(pallets.begin(), pallets.end(), sortByRatio);
-    int ResultRatio = GreedyKnapsack(truck, pallets, bestComboRatio);
+    std::sort(copy_pallets.begin(), copy_pallets.end(), sortByRatio);
+    int ResultRatio = GreedyKnapsack(truck, copy_pallets, bestComboRatio);
 
     // Sort by profit and run greedy
-    std::sort(pallets.begin(), pallets.end(), sortByProfit);
-    int ResultProfit = GreedyKnapsack(truck, pallets, bestComboProfit);
+    std::sort(copy_pallets.begin(), copy_pallets.end(), sortByProfit);
+    int ResultProfit = GreedyKnapsack(truck, copy_pallets, bestComboProfit);
 
     // Decide which result is better
     std::vector<int> bestCombo;
@@ -368,6 +370,7 @@ void KnapsackApproximation(const Truck& truck, std::vector<Pallet>& pallets) {
     for (int id : bestCombo) {
         std::cout << id << " ";
     }
+    std::cout << "\n";
 
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
