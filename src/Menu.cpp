@@ -2,21 +2,19 @@
 #include <iostream>
 #include <limits>
 #include <iomanip>
+#include <chrono>
 
 Menu::Menu() : dataLoaded(false), resultsAvailable(false) {}
 
 void Menu::showMainMenu() {
     while(true) {
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
+        // Do not clear the screen every time. Only clear when switching major sections
         displayHeader("MAIN MENU");
 
         std::cout << "1. Load Data Files\n"
                   << "2. Select Solver Algorithm\n"
                   << "3. Compare to optimal\n"
+                  << "4. View Results\n"  // New option to view results
                   << "6. Exit\n\n"
                   << "Select option: ";
 
@@ -25,28 +23,31 @@ void Menu::showMainMenu() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         switch(choice) {
-            case 1: loadData(); break;
-            case 2: solverSelectionMenu(); break;
-            case 6: exitProgram(); return;
+            case 1:
+                loadData();
+                break;
+            case 2:
+                solverSelectionMenu();
+                break;
+            case 4:
+                displayResults();  // View results
+                break;
+            case 6:
+                exitProgram();
+                return;
             default:
                 std::cout << "Invalid option!\n";
                 pressToContinue();
+                break;
         }
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));  // Optional: add slight delay
     }
-}
-
-void Menu::displayHeader(const std::string& title) const {
-    std::cout << "\n=== " << title << " ===\n\n";
-}
-
-void Menu::displaySeparator() const {
-    std::cout << "----------------------------------------\n";
 }
 
 void Menu::pressToContinue() const {
     std::cout << "\nPress Enter to continue...";
-    std::cin.ignore();
+    std::cin.ignore();  // Wait for the user to press Enter
 }
 
 void Menu::solverSelectionMenu() {
@@ -55,6 +56,7 @@ void Menu::solverSelectionMenu() {
         pressToContinue();
         return;
     }
+
     displayHeader("SELECT SOLVER");
     std::cout << "1. Approximation\n"
               << "2. Backtracking \n"
@@ -66,29 +68,75 @@ void Menu::solverSelectionMenu() {
     int choice;
     std::cin >> choice;
 
+    SolverResult result;
+    result.solverName = "Unknown";  // Default name
+
+    auto start = std::chrono::high_resolution_clock::now();  // Start timer
+
     try {
         switch(choice) {
             case 1:
+                result.solverName = "Approximation";
+                result.result= KnapsackApproximation(truck, pallets);
                 KnapsackApproximation(truck, pallets);
                 break;
             case 2:
-                solveCase1(this->truck, this->pallets);
+                result.solverName = "Backtracking";
+                result.result = solveCase1(this->truck, this->pallets);
                 break;
             case 3:
-                solveCase2(this->truck, this->pallets);
+                result.solverName = "Branch and Bound";
+                result.result = solveCase2(this->truck, this->pallets);
                 break;
             case 4:
-                solveDP( this->pallets, this->truck);
+                result.solverName = "Dynamic Programming";
+                result.result = solveDP(this->pallets, this->truck);
                 break;
             case 5:
                 return;
-
-            default: throw std::invalid_argument("Invalid selection");
+            default:
+                throw std::invalid_argument("Invalid selection");
         }
+
+        // Capture the time taken for the solver
+        auto end = std::chrono::high_resolution_clock::now();
+        result.duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+
+        // Store the result in the map, using the dataset identifier as the key
+        resultsMap[currentDatasetId].push_back(result);
+
         std::cout << "Solver selected successfully!\n";
     } catch(...) {
         std::cout << "Invalid solver selection!\n";
     }
+
+    pressToContinue();
+}
+
+void Menu::displayResults() {
+    std::cout << "Enter dataset identifier to view results: ";
+    std::string datasetId;
+    std::getline(std::cin, datasetId);
+
+    if (resultsMap.find(datasetId) == resultsMap.end()) {
+        std::cout << "No results available for this dataset.\n";
+        pressToContinue();
+        return;
+    }
+
+    std::cout << "\nResults for Dataset: " << datasetId << "\n";
+    for (const auto& result : resultsMap[datasetId]) {
+        std::cout << "Solver: " << result.solverName << "\n";
+        std::cout << "Result: " << result.result << "\n";
+        std::cout << "Execution Time: " << result.duration.count() << " seconds\n";
+        std::cout << "----------------------------------------\n";
+    }
+
+    pressToContinue();
+}
+
+void Menu::displayHeader(const std::string& title) const {
+    std::cout << "\n=== " << title << " ===\n\n";
 }
 
 void Menu::exitProgram() {
@@ -125,7 +173,7 @@ void Menu::loadData() {
         std::cout << "Successfully loaded dataset " << currentDatasetId << "!\n"
                   << "Truck file: " << truckFile << "\n"
                   << "Pallet file: " << palletFile << "\n";
-        std::cout << truck.getMaxCapacity()<< " " << truck.getPalletsCapacity()<< std::endl;
+        std::cout << truck.getMaxCapacity() << " " << truck.getPalletsCapacity() << std::endl;
     } catch(const std::exception& e) {
         std::cerr << "Error loading dataset " << currentDatasetId << ": " << e.what() << "\n";
         dataLoaded = false;

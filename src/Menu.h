@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <chrono>
 #include "Dataparser.h"
 #include "Solver.h"
 
@@ -23,6 +25,16 @@ private:
     bool dataLoaded;
     bool resultsAvailable;
 
+    // Data structure to store solver results
+    struct SolverResult {
+        std::string solverName;
+        int result;
+        std::chrono::duration<double> duration;
+    };
+
+    // Map to store results by dataset identifier
+    std::map<std::string, std::vector<SolverResult>> resultsMap;
+
     // UI helpers
     void displayHeader(const std::string& title) const;
     void displaySeparator() const;
@@ -32,6 +44,8 @@ private:
     void solverSelectionMenu();
     void fileLoadingMenu();
 
+    // New helper to display stored results
+    void displayResults();
 };
 
 #endif // MENU_H

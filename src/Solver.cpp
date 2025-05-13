@@ -176,7 +176,7 @@ void backtrackWithBound(const std::vector<Pallet>& pallets, const Truck& truck, 
 
 
 
-void solveCase1(Truck truck, const std::vector<Pallet>& pallets){
+int solveCase1(Truck truck, const std::vector<Pallet>& pallets){
     std::vector<int> bestCombo;
     int bestProfit =0;
     std::vector<int> currentCombo;
@@ -190,10 +190,11 @@ void solveCase1(Truck truck, const std::vector<Pallet>& pallets){
     std::cout << "Time taken by solveCase1: " << duration.count() << " seconds\n";
     std::cout<<bestProfit<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
+    return bestProfit;
 }
 
 
-void solveCase2(Truck truck, std::vector<Pallet>& pallets){
+int solveCase2(Truck truck, std::vector<Pallet>& pallets){
     std::vector<int> bestCombo;
     int bestProfit =0;
     std::vector<int> currentCombo;
@@ -207,6 +208,7 @@ void solveCase2(Truck truck, std::vector<Pallet>& pallets){
     std::cout << "Time taken by solveCase2: " << duration.count() << " seconds\n";
     std::cout<<bestProfit<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
+    return bestProfit;
 }
 
 
@@ -221,7 +223,7 @@ void solveCase2(Truck truck, std::vector<Pallet>& pallets){
  * @param pallets List of pallets.
  * @param truck Truck capacity constraints.
  */
-void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
+int solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     auto start = std::chrono::high_resolution_clock::now();
     int maxW = truck.getMaxCapacity();
     int maxP = truck.getPalletsCapacity();
@@ -280,6 +282,7 @@ void solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     std::cout << "Time taken by solveDP: " << duration.count() << " seconds\n";
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
+    return bestProfit;
 }
 
 
@@ -332,7 +335,7 @@ int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector
  * @param truck Truck capacity constraints.
  * @param pallets List of available pallets.
  */
-void KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets) {
+int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets) {
     std::vector<int> bestComboProfit;
     std::vector<int> bestComboRatio;
 
@@ -374,6 +377,7 @@ void KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets
 
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
+    return bestResult;
 }
 
 
