@@ -1,0 +1,28 @@
+\doxysection{Dataparser.\+h}
+\hypertarget{_dataparser_8h_source}{}\label{_dataparser_8h_source}\index{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Dataparser.h@{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Dataparser.h}}
+\mbox{\hyperlink{_dataparser_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ DATAPARSER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ DATAPARSER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_truck_8h}{classes/Truck.h}}"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_pallet_8h}{classes/Pallet.h}}"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_data_parser}{DataParser}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{comment}{//\ Parses\ truck\ CSV\ and\ returns\ a\ single\ Truck}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{class_truck}{Truck}}\ \mbox{\hyperlink{class_data_parser_ac0b7aadbca5a9efcd89affc3ec571bb1}{parseTruck}}(\textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ Parses\ pallets\ CSV\ and\ returns\ vector\ of\ Pallet\ objects\ with\ IDs}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<Pallet>\ \mbox{\hyperlink{class_data_parser_af1a50574ffab1bf2f53be197f4f51871}{parsePallets}}(\textcolor{keyword}{const}\ std::string\&\ filename);}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::string>\ \mbox{\hyperlink{class_data_parser_adf31ec93c00fba1c5cb20a0977695e9f}{splitCSVLine}}(\textcolor{keyword}{const}\ std::string\&\ line);}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ \mbox{\hyperlink{class_data_parser_a00d1efab19a224db5ffccfa1da11dc75}{trim}}(\textcolor{keyword}{const}\ std::string\&\ str);}
+\DoxyCodeLine{00020\ \};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ DATAPARSER\_H}}
+
+\end{DoxyCode}

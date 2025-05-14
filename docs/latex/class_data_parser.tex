@@ -1,0 +1,53 @@
+\doxysection{Data\+Parser Class Reference}
+\hypertarget{class_data_parser}{}\label{class_data_parser}\index{DataParser@{DataParser}}
+
+
+{\ttfamily \#include $<$Dataparser.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_truck}{Truck}} \mbox{\hyperlink{class_data_parser_ac0b7aadbca5a9efcd89affc3ec571bb1}{parse\+Truck}} (const std\+::string \&filename)
+\item 
+static std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \mbox{\hyperlink{class_data_parser_af1a50574ffab1bf2f53be197f4f51871}{parse\+Pallets}} (const std\+::string \&filename)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{class_data_parser_adf31ec93c00fba1c5cb20a0977695e9f}{split\+CSVLine}} (const std\+::string \&line)
+\item 
+static std\+::string \mbox{\hyperlink{class_data_parser_a00d1efab19a224db5ffccfa1da11dc75}{trim}} (const std\+::string \&str)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_data_parser_af1a50574ffab1bf2f53be197f4f51871}\index{DataParser@{DataParser}!parsePallets@{parsePallets}}
+\index{parsePallets@{parsePallets}!DataParser@{DataParser}}
+\doxysubsubsection{\texorpdfstring{parsePallets()}{parsePallets()}}
+{\footnotesize\ttfamily \label{class_data_parser_af1a50574ffab1bf2f53be197f4f51871} 
+std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ Data\+Parser\+::parse\+Pallets (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_data_parser_ac0b7aadbca5a9efcd89affc3ec571bb1}\index{DataParser@{DataParser}!parseTruck@{parseTruck}}
+\index{parseTruck@{parseTruck}!DataParser@{DataParser}}
+\doxysubsubsection{\texorpdfstring{parseTruck()}{parseTruck()}}
+{\footnotesize\ttfamily \label{class_data_parser_ac0b7aadbca5a9efcd89affc3ec571bb1} 
+\mbox{\hyperlink{class_truck}{Truck}} Data\+Parser\+::parse\+Truck (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\Hypertarget{class_data_parser_adf31ec93c00fba1c5cb20a0977695e9f}\index{DataParser@{DataParser}!splitCSVLine@{splitCSVLine}}
+\index{splitCSVLine@{splitCSVLine}!DataParser@{DataParser}}
+\doxysubsubsection{\texorpdfstring{splitCSVLine()}{splitCSVLine()}}
+{\footnotesize\ttfamily \label{class_data_parser_adf31ec93c00fba1c5cb20a0977695e9f} 
+std\+::vector$<$ std\+::string $>$ Data\+Parser\+::split\+CSVLine (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{line}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+\Hypertarget{class_data_parser_a00d1efab19a224db5ffccfa1da11dc75}\index{DataParser@{DataParser}!trim@{trim}}
+\index{trim@{trim}!DataParser@{DataParser}}
+\doxysubsubsection{\texorpdfstring{trim()}{trim()}}
+{\footnotesize\ttfamily \label{class_data_parser_a00d1efab19a224db5ffccfa1da11dc75} 
+std\+::string Data\+Parser\+::trim (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{str}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/project2/src/\mbox{\hyperlink{_dataparser_8h}{Dataparser.\+h}}\item 
+C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/project2/src/\mbox{\hyperlink{_dataparser_8cpp}{Dataparser.\+cpp}}\end{DoxyCompactItemize}

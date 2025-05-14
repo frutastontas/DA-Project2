@@ -1,0 +1,76 @@
+\doxysection{C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/project2/src/\+Solver.h File Reference}
+\hypertarget{_solver_8h}{}\label{_solver_8h}\index{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.h@{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.h}}
+{\ttfamily \#include "{}classes/\+Truck.\+h"{}}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include "{}classes/\+Pallet.\+h"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{_solver_8h_a379a3d1f4ab332a7696190e116c3f8ac}{solve\+Case1}} (\mbox{\hyperlink{class_truck}{Truck}} truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\item 
+int \mbox{\hyperlink{_solver_8h_a6abe9130e312988bd715eb0178497483}{solve\+Case2}} (\mbox{\hyperlink{class_truck}{Truck}} truck, std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\item 
+int \mbox{\hyperlink{_solver_8h_a30cf1da2cc6e760767e789390dfadcb9}{solve\+DP}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck)
+\begin{DoxyCompactList}\small\item\em Solves the knapsack problem using dynamic programming. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8h_a6f3d34f02430d9d5e97d2894fceec2cf}{Knapsack\+Approximation}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\begin{DoxyCompactList}\small\item\em Runs two greedy heuristics\+: by profit and by profit/weight ratio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_solver_8h_a6f3d34f02430d9d5e97d2894fceec2cf}\index{Solver.h@{Solver.h}!KnapsackApproximation@{KnapsackApproximation}}
+\index{KnapsackApproximation@{KnapsackApproximation}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{KnapsackApproximation()}{KnapsackApproximation()}}
+{\footnotesize\ttfamily \label{_solver_8h_a6f3d34f02430d9d5e97d2894fceec2cf} 
+int Knapsack\+Approximation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+
+
+Runs two greedy heuristics\+: by profit and by profit/weight ratio. 
+
+Picks the better result of the two.
+
+Time Complexity\+: O(n log n) — due to sorting twice. Space Complexity\+: O(n) — due to combo vectors.
+
+
+\begin{DoxyParams}{Parameters}
+{\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
+\hline
+{\em pallets} & List of available pallets. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_solver_8h_a379a3d1f4ab332a7696190e116c3f8ac}\index{Solver.h@{Solver.h}!solveCase1@{solveCase1}}
+\index{solveCase1@{solveCase1}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{solveCase1()}{solveCase1()}}
+{\footnotesize\ttfamily \label{_solver_8h_a379a3d1f4ab332a7696190e116c3f8ac} 
+int solve\+Case1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_truck}{Truck}}}]{truck}{, }\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_solver_8h_a6abe9130e312988bd715eb0178497483}\index{Solver.h@{Solver.h}!solveCase2@{solveCase2}}
+\index{solveCase2@{solveCase2}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{solveCase2()}{solveCase2()}}
+{\footnotesize\ttfamily \label{_solver_8h_a6abe9130e312988bd715eb0178497483} 
+int solve\+Case2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_truck}{Truck}}}]{truck}{, }\item[{std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_solver_8h_a30cf1da2cc6e760767e789390dfadcb9}\index{Solver.h@{Solver.h}!solveDP@{solveDP}}
+\index{solveDP@{solveDP}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{solveDP()}{solveDP()}}
+{\footnotesize\ttfamily \label{_solver_8h_a30cf1da2cc6e760767e789390dfadcb9} 
+int solve\+DP (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{}\end{DoxyParamCaption})}
+
+
+
+Solves the knapsack problem using dynamic programming. 
+
+Uses a 2D DP table where dp\mbox{[}w\mbox{]}\mbox{[}k\mbox{]} stores the max profit for weight w and k pallets.
+
+Time Complexity\+: O(n \texorpdfstring{$\ast$}{*} W \texorpdfstring{$\ast$}{*} K) — n\+: pallets, W\+: weight limit, K\+: pallet count limit. Space Complexity\+: O(\+W \texorpdfstring{$\ast$}{*} K) — space for DP table.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pallets} & List of pallets. \\
+\hline
+{\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
+\hline
+\end{DoxyParams}

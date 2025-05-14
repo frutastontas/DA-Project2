@@ -1,0 +1,226 @@
+\doxysection{C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/project2/src/\+Solver.cpp File Reference}
+\hypertarget{_solver_8cpp}{}\label{_solver_8cpp}\index{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.cpp@{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.cpp}}
+{\ttfamily \#include "{}Solver.\+h"{}}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_solver_8cpp_a7a7243adc64bf398362933b8f5829557}{backtrack}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck, int index, int current\+Profit, int current\+Weight, int current\+Pallets, std\+::vector$<$ int $>$ \&current\+Combo, std\+::vector$<$ int $>$ \&best\+Combo, int \&best\+Profit)
+\begin{DoxyCompactList}\small\item\em Recursive backtracking solution to the knapsack problem. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{_solver_8cpp_a00da3e63bb112ad74137c7e3b97f684b}{sort\+By\+Ratio}} (const \mbox{\hyperlink{class_pallet}{Pallet}} \&pallet1, const \mbox{\hyperlink{class_pallet}{Pallet}} \&pallet2)
+\item 
+bool \mbox{\hyperlink{_solver_8cpp_aa9cb9cb7c66bdde9e962046eb317d340}{sort\+By\+Profit}} (const \mbox{\hyperlink{class_pallet}{Pallet}} \&pallet1, const \mbox{\hyperlink{class_pallet}{Pallet}} \&pallet2)
+\item 
+double \mbox{\hyperlink{_solver_8cpp_a0e06ccaca344b67de48681bdc3d41b71}{compute\+Upper\+Bound}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck, int index, int current\+Profit, int current\+Weight)
+\begin{DoxyCompactList}\small\item\em Computes an upper bound on maximum achievable profit from current index. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{_solver_8cpp_a94a7100b744ad1aa09382ff87e8a11d8}{backtrack\+With\+Bound}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck, int index, int current\+Profit, int current\+Weight, int current\+Pallets, std\+::vector$<$ int $>$ \&current\+Combo, std\+::vector$<$ int $>$ \&best\+Combo, int \&best\+Profit)
+\begin{DoxyCompactList}\small\item\em Enhanced backtracking using branch-\/and-\/bound to prune infeasible branches. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a379a3d1f4ab332a7696190e116c3f8ac}{solve\+Case1}} (\mbox{\hyperlink{class_truck}{Truck}} truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\item 
+int \mbox{\hyperlink{_solver_8cpp_a6abe9130e312988bd715eb0178497483}{solve\+Case2}} (\mbox{\hyperlink{class_truck}{Truck}} truck, std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\item 
+int \mbox{\hyperlink{_solver_8cpp_a30cf1da2cc6e760767e789390dfadcb9}{solve\+DP}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck)
+\begin{DoxyCompactList}\small\item\em Solves the knapsack problem using dynamic programming. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a0accd3d98716a69f0d15a817cfc773fb}{Greedy\+Knapsack}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, std\+::vector$<$ int $>$ \&best\+Combo)
+\begin{DoxyCompactList}\small\item\em Greedy heuristic for approximate knapsack solution. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8cpp_a6f3d34f02430d9d5e97d2894fceec2cf}{Knapsack\+Approximation}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\begin{DoxyCompactList}\small\item\em Runs two greedy heuristics\+: by profit and by profit/weight ratio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_solver_8cpp_a7a7243adc64bf398362933b8f5829557}\index{Solver.cpp@{Solver.cpp}!backtrack@{backtrack}}
+\index{backtrack@{backtrack}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{backtrack()}{backtrack()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a7a7243adc64bf398362933b8f5829557} 
+void backtrack (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{int}]{index}{, }\item[{int}]{current\+Profit}{, }\item[{int}]{current\+Weight}{, }\item[{int}]{current\+Pallets}{, }\item[{std\+::vector$<$ int $>$ \&}]{current\+Combo}{, }\item[{std\+::vector$<$ int $>$ \&}]{best\+Combo}{, }\item[{int \&}]{best\+Profit}{}\end{DoxyParamCaption})}
+
+
+
+Recursive backtracking solution to the knapsack problem. 
+
+Explores all possible subsets of pallets by recursively including/excluding each pallet.
+
+Time Complexity\+: O(2\texorpdfstring{$^\wedge$}{\string^}n) — explores every combination. Space Complexity\+: O(n) — due to recursion stack and combo storage.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pallets} & List of available pallets. \\
+\hline
+{\em truck} & Constraints\+: max weight and max number of pallets. \\
+\hline
+{\em index} & Current pallet index. \\
+\hline
+{\em current\+Profit} & Current profit accumulated. \\
+\hline
+{\em current\+Weight} & Current weight accumulated. \\
+\hline
+{\em current\+Pallets} & Number of pallets used so far. \\
+\hline
+{\em current\+Combo} & \doxylink{class_pallet}{Pallet} IDs in current selection. \\
+\hline
+{\em best\+Combo} & \doxylink{class_pallet}{Pallet} IDs of best selection found. \\
+\hline
+{\em best\+Profit} & Best profit found so far. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_solver_8cpp_a94a7100b744ad1aa09382ff87e8a11d8}\index{Solver.cpp@{Solver.cpp}!backtrackWithBound@{backtrackWithBound}}
+\index{backtrackWithBound@{backtrackWithBound}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{backtrackWithBound()}{backtrackWithBound()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a94a7100b744ad1aa09382ff87e8a11d8} 
+void backtrack\+With\+Bound (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{int}]{index}{, }\item[{int}]{current\+Profit}{, }\item[{int}]{current\+Weight}{, }\item[{int}]{current\+Pallets}{, }\item[{std\+::vector$<$ int $>$ \&}]{current\+Combo}{, }\item[{std\+::vector$<$ int $>$ \&}]{best\+Combo}{, }\item[{int \&}]{best\+Profit}{}\end{DoxyParamCaption})}
+
+
+
+Enhanced backtracking using branch-\/and-\/bound to prune infeasible branches. 
+
+Skips exploring branches that cannot improve current best profit (using compute\+Upper\+Bound).
+
+Time Complexity\+: O(2\texorpdfstring{$^\wedge$}{\string^}n) in worst case, but significantly pruned in practice. Space Complexity\+: O(n) — due to recursion and combo storage.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pallets} & List of pallets. \\
+\hline
+{\em truck} & \doxylink{class_truck}{Truck} constraints. \\
+\hline
+{\em index} & Current pallet index. \\
+\hline
+{\em current\+Profit} & Profit so far. \\
+\hline
+{\em current\+Weight} & Weight so far. \\
+\hline
+{\em current\+Pallets} & Count of pallets used. \\
+\hline
+{\em current\+Combo} & \doxylink{class_pallet}{Pallet} selection being explored. \\
+\hline
+{\em best\+Combo} & Best solution found so far. \\
+\hline
+{\em best\+Profit} & Maximum profit found. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_solver_8cpp_a0e06ccaca344b67de48681bdc3d41b71}\index{Solver.cpp@{Solver.cpp}!computeUpperBound@{computeUpperBound}}
+\index{computeUpperBound@{computeUpperBound}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{computeUpperBound()}{computeUpperBound()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a0e06ccaca344b67de48681bdc3d41b71} 
+double compute\+Upper\+Bound (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{int}]{index}{, }\item[{int}]{current\+Profit}{, }\item[{int}]{current\+Weight}{}\end{DoxyParamCaption})}
+
+
+
+Computes an upper bound on maximum achievable profit from current index. 
+
+Uses fractional knapsack logic for bounding in branch-\/and-\/bound.
+
+Time Complexity\+: O(n log n) — due to sorting the remaining items. Space Complexity\+: O(n) — for creating the list of remaining pallets.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pallets} & \doxylink{class_pallet}{Pallet} list. \\
+\hline
+{\em truck} & \doxylink{class_truck}{Truck} constraints. \\
+\hline
+{\em index} & Current index. \\
+\hline
+{\em current\+Profit} & Accumulated profit. \\
+\hline
+{\em current\+Weight} & Accumulated weight. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Estimated upper bound profit. 
+\end{DoxyReturn}
+\Hypertarget{_solver_8cpp_a0accd3d98716a69f0d15a817cfc773fb}\index{Solver.cpp@{Solver.cpp}!GreedyKnapsack@{GreedyKnapsack}}
+\index{GreedyKnapsack@{GreedyKnapsack}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{GreedyKnapsack()}{GreedyKnapsack()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a0accd3d98716a69f0d15a817cfc773fb} 
+int Greedy\+Knapsack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{std\+::vector$<$ int $>$ \&}]{best\+Combo}{}\end{DoxyParamCaption})}
+
+
+
+Greedy heuristic for approximate knapsack solution. 
+
+Selects pallets while respecting weight and count constraints using a sorted heuristic.
+
+Time Complexity\+: O(n) — iterates once over pallets. Space Complexity\+: O(1) — aside from output combo vector.
+
+
+\begin{DoxyParams}{Parameters}
+{\em truck} & \doxylink{class_truck}{Truck} constraints. \\
+\hline
+{\em pallets} & List of pallets (pre-\/sorted). \\
+\hline
+{\em best\+Combo} & Output vector for selected pallet IDs. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Total profit obtained. 
+\end{DoxyReturn}
+\Hypertarget{_solver_8cpp_a6f3d34f02430d9d5e97d2894fceec2cf}\index{Solver.cpp@{Solver.cpp}!KnapsackApproximation@{KnapsackApproximation}}
+\index{KnapsackApproximation@{KnapsackApproximation}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{KnapsackApproximation()}{KnapsackApproximation()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a6f3d34f02430d9d5e97d2894fceec2cf} 
+int Knapsack\+Approximation (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+
+
+Runs two greedy heuristics\+: by profit and by profit/weight ratio. 
+
+Picks the better result of the two.
+
+Time Complexity\+: O(n log n) — due to sorting twice. Space Complexity\+: O(n) — due to combo vectors.
+
+
+\begin{DoxyParams}{Parameters}
+{\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
+\hline
+{\em pallets} & List of available pallets. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_solver_8cpp_a379a3d1f4ab332a7696190e116c3f8ac}\index{Solver.cpp@{Solver.cpp}!solveCase1@{solveCase1}}
+\index{solveCase1@{solveCase1}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solveCase1()}{solveCase1()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a379a3d1f4ab332a7696190e116c3f8ac} 
+int solve\+Case1 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_truck}{Truck}}}]{truck}{, }\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_solver_8cpp_a6abe9130e312988bd715eb0178497483}\index{Solver.cpp@{Solver.cpp}!solveCase2@{solveCase2}}
+\index{solveCase2@{solveCase2}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solveCase2()}{solveCase2()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a6abe9130e312988bd715eb0178497483} 
+int solve\+Case2 (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_truck}{Truck}}}]{truck}{, }\item[{std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_solver_8cpp_a30cf1da2cc6e760767e789390dfadcb9}\index{Solver.cpp@{Solver.cpp}!solveDP@{solveDP}}
+\index{solveDP@{solveDP}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{solveDP()}{solveDP()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a30cf1da2cc6e760767e789390dfadcb9} 
+int solve\+DP (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{, }\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{}\end{DoxyParamCaption})}
+
+
+
+Solves the knapsack problem using dynamic programming. 
+
+Uses a 2D DP table where dp\mbox{[}w\mbox{]}\mbox{[}k\mbox{]} stores the max profit for weight w and k pallets.
+
+Time Complexity\+: O(n \texorpdfstring{$\ast$}{*} W \texorpdfstring{$\ast$}{*} K) — n\+: pallets, W\+: weight limit, K\+: pallet count limit. Space Complexity\+: O(\+W \texorpdfstring{$\ast$}{*} K) — space for DP table.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pallets} & List of pallets. \\
+\hline
+{\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{_solver_8cpp_aa9cb9cb7c66bdde9e962046eb317d340}\index{Solver.cpp@{Solver.cpp}!sortByProfit@{sortByProfit}}
+\index{sortByProfit@{sortByProfit}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{sortByProfit()}{sortByProfit()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_aa9cb9cb7c66bdde9e962046eb317d340} 
+bool sort\+By\+Profit (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_pallet}{Pallet}} \&}]{pallet1}{, }\item[{const \mbox{\hyperlink{class_pallet}{Pallet}} \&}]{pallet2}{}\end{DoxyParamCaption})}
+
+\Hypertarget{_solver_8cpp_a00da3e63bb112ad74137c7e3b97f684b}\index{Solver.cpp@{Solver.cpp}!sortByRatio@{sortByRatio}}
+\index{sortByRatio@{sortByRatio}!Solver.cpp@{Solver.cpp}}
+\doxysubsubsection{\texorpdfstring{sortByRatio()}{sortByRatio()}}
+{\footnotesize\ttfamily \label{_solver_8cpp_a00da3e63bb112ad74137c7e3b97f684b} 
+bool sort\+By\+Ratio (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_pallet}{Pallet}} \&}]{pallet1}{, }\item[{const \mbox{\hyperlink{class_pallet}{Pallet}} \&}]{pallet2}{}\end{DoxyParamCaption})}
+
