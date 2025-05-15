@@ -3,6 +3,95 @@
 
 #include <algorithm>
 
+
+/**
+ * @brief Solves the pallet selection problem using Integer Linear Programming (ILP) via Google OR-Tools.
+ *
+ * This method formulates the problem as a 0/1 Integer Linear Program:
+ * - Each pallet is represented by a binary variable (selected or not).
+ * - The objective is to maximize total profit.
+ * - Subject to:
+ *    - Total weight of selected pallets must not exceed the truck's capacity.
+ *    - Total number of selected pallets must not exceed the allowed pallet slots.
+ *
+ * Uses Google OR-Tools' MPSolver with the SCIP or CBC backends.
+ *
+ * Time Complexity: Depends on the underlying solver, generally exponential in the worst case,
+ * but efficient for moderate-sized inputs (~hundreds of items).
+ *
+ * Space Complexity: O(n) for storing variables and constraints, where n is the number of pallets.
+ *
+ * @param truck The truck object specifying maximum weight and pallet count constraints.
+ * @param pallets A list of Pallet objects, each with a profit, weight, and unique ID.
+ * @return The maximum total profit achievable without violating truck constraints.
+ */
+/*
+#include "ortools/linear_solver/linear_solver.h"
+using namespace operations_research;
+
+int solveWithILP(const Truck& truck, const std::vector<Pallet>& pallets) {
+    auto solver = MPSolver::CreateSolver("SCIP"); // or "CBC"
+
+    if (!solver) {
+        std::cerr << "Failed to create solver.\n";
+        return 0;
+    }
+
+    const int n = pallets.size();
+    std::vector<const MPVariable*> vars(n);
+
+
+    for (int i = 0; i < n; ++i) {
+        vars[i] = solver->MakeBoolVar("x" + std::to_string(i));
+    }
+
+
+    MPConstraint* weight_constraint = solver->MakeRowConstraint(0, truck.getMaxCapacity(), "weight");
+    for (int i = 0; i < n; ++i) {
+        weight_constraint->SetCoefficient(vars[i], pallets[i].getWeight());
+    }
+
+
+    MPConstraint* count_constraint = solver->MakeRowConstraint(0, truck.getPalletsCapacity(), "count");
+    for (int i = 0; i < n; ++i) {
+        count_constraint->SetCoefficient(vars[i], 1);
+    }
+
+
+    MPObjective* objective = solver->MutableObjective();
+    for (int i = 0; i < n; ++i) {
+        objective->SetCoefficient(vars[i], pallets[i].getProfit());
+    }
+    objective->SetMaximization();
+
+    // Solve the problem
+    auto status = solver->Solve();
+
+    if (status != MPSolver::OPTIMAL && status != MPSolver::FEASIBLE) {
+        std::cerr << "No optimal solution found.\n";
+        return 0;
+    }
+
+    // Extract solution
+    int totalProfit = 0;
+    std::vector<int> selectedPallets;
+    for (int i = 0; i < n; ++i) {
+        if (vars[i]->solution_value() > 0.5) {
+            selectedPallets.push_back(pallets[i].getId());
+            totalProfit += pallets[i].getProfit();
+        }
+    }
+
+    std::cout << "=== ILP Solution ===\n";
+    std::cout << "Total Profit: " << totalProfit << "\n";
+    std::cout << "Selected Pallets (IDs): ";
+    for (int id : selectedPallets) std::cout << id << " ";
+    std::cout << "\n";
+
+    return totalProfit;
+}
+*/
+
 /**
  * @brief Recursive backtracking solution to the knapsack problem.
  *

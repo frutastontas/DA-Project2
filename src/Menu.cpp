@@ -62,7 +62,8 @@ void Menu::solverSelectionMenu() {
               << "2. Backtracking \n"
               << "3. Branch and Bound\n"
               << "4. Dynamic Programming\n"
-              << "5. Return to Main Menu\n\n"
+              << "5. ILP\n"
+              << "6. Return to Main Menu\n\n"
               << "Select solver type: ";
 
     int choice;
@@ -92,7 +93,11 @@ void Menu::solverSelectionMenu() {
                 result.solverName = "Dynamic Programming";
                 result.result = solveDP(this->pallets, this->truck);
                 break;
-            case 5:
+            /*case 5:
+                result.solverName = "ILP";
+                result.result = solveWithILP(this->truck, this->pallets);
+                break;*/
+            case 6:
                 return;
             default:
                 throw std::invalid_argument("Invalid selection");
