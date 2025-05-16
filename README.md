@@ -64,3 +64,21 @@
 - Extremely **fast** even for large datasets.
 - Useful when performance matters more than perfect accuracy.
 - Picks between two heuristics: **max profit** and **best value per weight**.
+
+### Hybrid Strategy
+The **Hybrid Strategy** combines **greedy selection** and **local search improvement** to solve the 0/1 Knapsack problem efficiently. The approach works as follows:
+
+1. **Greedy Selection**: The pallets are initially selected based on their **profit-to-weight ratio**. This is a greedy approach where we select the most profitable pallets (per unit of weight) until we reach capacity constraints for the truck.
+
+2. **Local Search Improvement (Flipping)**: After the initial greedy selection, the algorithm performs a local search by **flipping** the inclusion of pallets one by one. It evaluates if toggling any selected pallet improves the overall solution in terms of profit. The search continues until no further improvement can be found.
+
+#### Time and Space Complexity
+- **Time Complexity**: O(n²) — The greedy selection takes O(n log n) for sorting, and the local search improvement involves iterating over pallets and checking solutions.
+- **Space Complexity**: O(n) — Stores flags for selected pallets and a record of the best combination.
+
+#### Notes
+- **Greedy Selection**: Quickly generates an initial solution using a heuristic.
+- **Local Search**: Tries to improve the greedy solution by flipping pallet inclusions, which can yield a better solution if improvements exist.
+- **Efficient for medium-sized datasets**: The method strikes a balance between finding a good solution and not being as computationally expensive as other exact algorithms like Dynamic Programming.
+
+
