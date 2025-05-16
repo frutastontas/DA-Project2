@@ -62,7 +62,7 @@ void Menu::solverSelectionMenu() {
               << "2. Backtracking \n"
               << "3. Branch and Bound\n"
               << "4. Dynamic Programming\n"
-              << "5. ILP\n"
+              << "5. Hybrid\n"
               << "6. Return to Main Menu\n\n"
               << "Select solver type: ";
 
@@ -93,10 +93,10 @@ void Menu::solverSelectionMenu() {
                 result.solverName = "Dynamic Programming";
                 result.result = solveDP(this->pallets, this->truck);
                 break;
-            /*case 5:
-                result.solverName = "ILP";
-                result.result = solveWithILP(this->truck, this->pallets);
-                break;*/
+            case 5:
+                result.solverName = "Hybrid";
+                result.result = solveHybridKnapsack(this->truck, this->pallets);
+                break;
             case 6:
                 return;
             default:

@@ -17,5 +17,5 @@ int solveDP(const std::vector<Pallet>& pallets, const Truck& truck);
 
 int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets);
 
-int solveWithILP(const Truck& truck, const std::vector<Pallet>& pallets);
+int solveHybridKnapsack(const Truck& truck, const std::vector<Pallet>& pallets);
 #endif //SOLVER_H
