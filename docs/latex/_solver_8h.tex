@@ -1,5 +1,5 @@
-\doxysection{C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/project2/src/\+Solver.h File Reference}
-\hypertarget{_solver_8h}{}\label{_solver_8h}\index{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.h@{C:/Users/joaop/Desktop/DA\_proj2/DA-\/project2/src/Solver.h}}
+\doxysection{C\+:/\+Users/joaop/\+Desktop/\+DA\+\_\+proj2/\+DA-\/\+Project2/src/\+Solver.h File Reference}
+\hypertarget{_solver_8h}{}\label{_solver_8h}\index{C:/Users/joaop/Desktop/DA\_proj2/DA-\/Project2/src/Solver.h@{C:/Users/joaop/Desktop/DA\_proj2/DA-\/Project2/src/Solver.h}}
 {\ttfamily \#include "{}classes/\+Truck.\+h"{}}\newline
 {\ttfamily \#include $<$thread$>$}\newline
 {\ttfamily \#include $<$chrono$>$}\newline
@@ -16,7 +16,9 @@ int \mbox{\hyperlink{_solver_8h_a6abe9130e312988bd715eb0178497483}{solve\+Case2}
 int \mbox{\hyperlink{_solver_8h_a30cf1da2cc6e760767e789390dfadcb9}{solve\+DP}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck)
 \begin{DoxyCompactList}\small\item\em Solves the knapsack problem using dynamic programming. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_solver_8h_a6f3d34f02430d9d5e97d2894fceec2cf}{Knapsack\+Approximation}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
-\begin{DoxyCompactList}\small\item\em Runs two greedy heuristics\+: by profit and by profit/weight ratio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Runs two greedy heuristics\+: by profit and by profit/weight ratio. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_solver_8h_ad4c5b325fd4b2e03494778ee17454915}{solve\+Hybrid\+Knapsack}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
+\begin{DoxyCompactList}\small\item\em Solves the 0/1 Knapsack problem using a hybrid approach. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -74,3 +76,37 @@ Time Complexity\+: O(n \texorpdfstring{$\ast$}{*} W \texorpdfstring{$\ast$}{*} K
 {\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
 \hline
 \end{DoxyParams}
+\Hypertarget{_solver_8h_ad4c5b325fd4b2e03494778ee17454915}\index{Solver.h@{Solver.h}!solveHybridKnapsack@{solveHybridKnapsack}}
+\index{solveHybridKnapsack@{solveHybridKnapsack}!Solver.h@{Solver.h}}
+\doxysubsubsection{\texorpdfstring{solveHybridKnapsack()}{solveHybridKnapsack()}}
+{\footnotesize\ttfamily \label{_solver_8h_ad4c5b325fd4b2e03494778ee17454915} 
+int solve\+Hybrid\+Knapsack (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_truck}{Truck}} \&}]{truck}{, }\item[{const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&}]{pallets}{}\end{DoxyParamCaption})}
+
+
+
+Solves the 0/1 Knapsack problem using a hybrid approach. 
+
+For small problem sizes (n \texorpdfstring{$<$}{<}= 30), uses dynamic programming to find the optimal solution. For larger inputs, it applies a greedy heuristic (based on profit-\/to-\/weight ratio) followed by a local search improvement via bit-\/flip neighborhood search.
+
+Time Complexity\+:
+\begin{DoxyItemize}
+\item DP\+: O(n \texorpdfstring{$\ast$}{*} W \texorpdfstring{$\ast$}{*} K) for small n (\texorpdfstring{$<$}{<}= 30)
+\item Hybrid\+: O(n log n + n\texorpdfstring{$^\wedge$}{\string^}2) — due to greedy sorting + local search
+\end{DoxyItemize}
+
+Space Complexity\+:
+\begin{DoxyItemize}
+\item DP\+: O(\+W \texorpdfstring{$\ast$}{*} K)
+\item Hybrid\+: O(n)
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em truck} & The \doxylink{class_truck}{Truck} object with capacity constraints. \\
+\hline
+{\em pallets} & List of available pallets (with precomputed ratios). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Total profit of the best solution found. 
+\end{DoxyReturn}

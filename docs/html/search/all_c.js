@@ -5,12 +5,13 @@ var searchData=
   ['solvecase1_2',['solveCase1',['../_solver_8cpp.html#a379a3d1f4ab332a7696190e116c3f8ac',1,'solveCase1(Truck truck, const std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp'],['../_solver_8h.html#a379a3d1f4ab332a7696190e116c3f8ac',1,'solveCase1(Truck truck, const std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp']]],
   ['solvecase2_3',['solveCase2',['../_solver_8cpp.html#a6abe9130e312988bd715eb0178497483',1,'solveCase2(Truck truck, std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp'],['../_solver_8h.html#a6abe9130e312988bd715eb0178497483',1,'solveCase2(Truck truck, std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp']]],
   ['solvedp_4',['solveDP',['../_solver_8cpp.html#a30cf1da2cc6e760767e789390dfadcb9',1,'solveDP(const std::vector&lt; Pallet &gt; &amp;pallets, const Truck &amp;truck):&#160;Solver.cpp'],['../_solver_8h.html#a30cf1da2cc6e760767e789390dfadcb9',1,'solveDP(const std::vector&lt; Pallet &gt; &amp;pallets, const Truck &amp;truck):&#160;Solver.cpp']]],
-  ['solver_2ecpp_5',['Solver.cpp',['../_solver_8cpp.html',1,'']]],
-  ['solver_2eh_6',['Solver.h',['../_solver_8h.html',1,'']]],
-  ['solvername_7',['solverName',['../struct_menu_1_1_solver_result.html#acf645066b139035d3d843094606e9792',1,'Menu::SolverResult']]],
-  ['solverresult_8',['SolverResult',['../struct_menu_1_1_solver_result.html',1,'Menu']]],
-  ['solverselectionmenu_9',['solverSelectionMenu',['../class_menu.html#a21afc6fd982181b7c35714a76589f603',1,'Menu']]],
-  ['sortbyprofit_10',['sortByProfit',['../_solver_8cpp.html#aa9cb9cb7c66bdde9e962046eb317d340',1,'Solver.cpp']]],
-  ['sortbyratio_11',['sortByRatio',['../_solver_8cpp.html#a00da3e63bb112ad74137c7e3b97f684b',1,'Solver.cpp']]],
-  ['splitcsvline_12',['splitCSVLine',['../class_data_parser.html#adf31ec93c00fba1c5cb20a0977695e9f',1,'DataParser']]]
+  ['solvehybridknapsack_5',['solveHybridKnapsack',['../_solver_8cpp.html#ad4c5b325fd4b2e03494778ee17454915',1,'solveHybridKnapsack(const Truck &amp;truck, const std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp'],['../_solver_8h.html#ad4c5b325fd4b2e03494778ee17454915',1,'solveHybridKnapsack(const Truck &amp;truck, const std::vector&lt; Pallet &gt; &amp;pallets):&#160;Solver.cpp']]],
+  ['solver_2ecpp_6',['Solver.cpp',['../_solver_8cpp.html',1,'']]],
+  ['solver_2eh_7',['Solver.h',['../_solver_8h.html',1,'']]],
+  ['solvername_8',['solverName',['../struct_menu_1_1_solver_result.html#acf645066b139035d3d843094606e9792',1,'Menu::SolverResult']]],
+  ['solverresult_9',['SolverResult',['../struct_menu_1_1_solver_result.html',1,'Menu']]],
+  ['solverselectionmenu_10',['solverSelectionMenu',['../class_menu.html#a21afc6fd982181b7c35714a76589f603',1,'Menu']]],
+  ['sortbyprofit_11',['sortByProfit',['../_solver_8cpp.html#aa9cb9cb7c66bdde9e962046eb317d340',1,'Solver.cpp']]],
+  ['sortbyratio_12',['sortByRatio',['../_solver_8cpp.html#a00da3e63bb112ad74137c7e3b97f684b',1,'Solver.cpp']]],
+  ['splitcsvline_13',['splitCSVLine',['../class_data_parser.html#adf31ec93c00fba1c5cb20a0977695e9f',1,'DataParser']]]
 ];

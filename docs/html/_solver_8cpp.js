@@ -8,6 +8,7 @@ var _solver_8cpp =
     [ "solveCase1", "_solver_8cpp.html#a379a3d1f4ab332a7696190e116c3f8ac", null ],
     [ "solveCase2", "_solver_8cpp.html#a6abe9130e312988bd715eb0178497483", null ],
     [ "solveDP", "_solver_8cpp.html#a30cf1da2cc6e760767e789390dfadcb9", null ],
+    [ "solveHybridKnapsack", "_solver_8cpp.html#ad4c5b325fd4b2e03494778ee17454915", null ],
     [ "sortByProfit", "_solver_8cpp.html#aa9cb9cb7c66bdde9e962046eb317d340", null ],
     [ "sortByRatio", "_solver_8cpp.html#a00da3e63bb112ad74137c7e3b97f684b", null ]
 ];

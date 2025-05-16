@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Knapsack: C:/Users/joaop/Desktop/DA_proj2/DA-project2/src/Solver.cpp File Reference</title>
+<title>Knapsack: C:/Users/joaop/Desktop/DA_proj2/DA-Project2/src/Solver.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -142,6 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a6f3d34f02430d9d5e97d2894fceec2cf" id="r_a6f3d34f02430d9d5e97d2894fceec2cf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f3d34f02430d9d5e97d2894fceec2cf">KnapsackApproximation</a> (const <a class="el" href="class_truck.html">Truck</a> &amp;truck, const std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;pallets)</td></tr>
 <tr class="memdesc:a6f3d34f02430d9d5e97d2894fceec2cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs two greedy heuristics: by profit and by profit/weight ratio.  <br /></td></tr>
 <tr class="separator:a6f3d34f02430d9d5e97d2894fceec2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4c5b325fd4b2e03494778ee17454915" id="r_ad4c5b325fd4b2e03494778ee17454915"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4c5b325fd4b2e03494778ee17454915">solveHybridKnapsack</a> (const <a class="el" href="class_truck.html">Truck</a> &amp;truck, const std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;pallets)</td></tr>
+<tr class="memdesc:ad4c5b325fd4b2e03494778ee17454915"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the 0/1 Knapsack problem using a hybrid approach.  <br /></td></tr>
+<tr class="separator:ad4c5b325fd4b2e03494778ee17454915"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a7a7243adc64bf398362933b8f5829557" name="a7a7243adc64bf398362933b8f5829557"></a>
@@ -485,6 +488,46 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ad4c5b325fd4b2e03494778ee17454915" name="ad4c5b325fd4b2e03494778ee17454915"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4c5b325fd4b2e03494778ee17454915">&#9670;&#160;</a></span>solveHybridKnapsack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int solveHybridKnapsack </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_truck.html">Truck</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>truck</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>pallets</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Solves the 0/1 Knapsack problem using a hybrid approach. </p>
+<p>For small problem sizes (n &lt;= 30), uses dynamic programming to find the optimal solution. For larger inputs, it applies a greedy heuristic (based on profit-to-weight ratio) followed by a local search improvement via bit-flip neighborhood search.</p>
+<p>Time Complexity:</p><ul>
+<li>DP: O(n * W * K) for small n (&lt;= 30)</li>
+<li>Hybrid: O(n log n + n^2) — due to greedy sorting + local search</li>
+</ul>
+<p>Space Complexity:</p><ul>
+<li>DP: O(W * K)</li>
+<li>Hybrid: O(n)</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">truck</td><td>The <a class="el" href="class_truck.html">Truck</a> object with capacity constraints. </td></tr>
+    <tr><td class="paramname">pallets</td><td>List of available pallets (with precomputed ratios). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Total profit of the best solution found. </dd></dl>
 
 </div>
 </div>

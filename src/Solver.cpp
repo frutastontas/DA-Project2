@@ -383,25 +383,36 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
 
 
 /**
- * @brief Solves the 0/1 Knapsack problem using a hybrid approach combining greedy selection
- *        and local search improvement.
+ * @brief Solves the 0/1 Knapsack problem using a hybrid approach.
  *
- * Initially selects pallets greedily based on profit-to-weight ratio. Then iteratively
- * toggles the inclusion of each pallet (local flip) to explore better neighbors,
- * updating the current solution if profit improves. Applies the same tie-breaking strategy
- * as other methods: prefer fewer pallets, then lex smaller ID list.
+ * For small problem sizes (n <= 30), uses dynamic programming to find the optimal solution.
+ * For larger inputs, it applies a greedy heuristic (based on profit-to-weight ratio) followed
+ * by a local search improvement via bit-flip neighborhood search.
  *
- * Time Complexity: O(n^2) — greedy + local flip check per pallet.
- * Space Complexity: O(n) — stores selection flags and best combo.
+ * Time Complexity:
+ * - DP: O(n * W * K) for small n (<= 30)
+ * - Hybrid: O(n log n + n^2) — due to greedy sorting + local search
+ *
+ * Space Complexity:
+ * - DP: O(W * K)
+ * - Hybrid: O(n)
  *
  * @param truck The Truck object with capacity constraints.
  * @param pallets List of available pallets (with precomputed ratios).
  * @return Total profit of the best solution found.
  */
 int solveHybridKnapsack(const Truck& truck, const std::vector<Pallet>& pallets) {
+    const int n = pallets.size();
+
+    // Use DP for small instances
+    if (n <= 30) {
+        std::cout << "[Hybrid] Using DP for small instance (n = " << n << ")\n";
+        return solveDP(pallets, truck);
+    }
+
+    std::cout << "[Hybrid] Using Greedy + Local Search for large instance (n = " << n << ")\n";
     auto startTime = std::chrono::high_resolution_clock::now();
 
-    const int n = pallets.size();
     std::vector<bool> isSelected(n, false);
     std::vector<std::pair<double, int>> ratioIndex;
 
