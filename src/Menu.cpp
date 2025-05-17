@@ -8,13 +8,12 @@ Menu::Menu() : dataLoaded(false), resultsAvailable(false) {}
 
 void Menu::showMainMenu() {
     while(true) {
-        // Do not clear the screen every time. Only clear when switching major sections
         displayHeader("MAIN MENU");
 
         std::cout << "1. Load Data Files\n"
                   << "2. Select Solver Algorithm\n"
                   << "3. Compare to optimal\n"
-                  << "4. View Results\n"  // New option to view results
+                  << "4. View Results\n"
                   << "6. Exit\n\n"
                   << "Select option: ";
 
@@ -47,7 +46,7 @@ void Menu::showMainMenu() {
 
 void Menu::pressToContinue() const {
     std::cout << "\nPress Enter to continue...";
-    std::cin.ignore();  // Wait for the user to press Enter
+    std::cin.ignore();
 }
 
 void Menu::solverSelectionMenu() {
@@ -70,16 +69,15 @@ void Menu::solverSelectionMenu() {
     std::cin >> choice;
 
     SolverResult result;
-    result.solverName = "Unknown";  // Default name
+    result.solverName = "Unknown";
 
-    auto start = std::chrono::high_resolution_clock::now();  // Start timer
+    auto start = std::chrono::high_resolution_clock::now();
 
     try {
         switch(choice) {
             case 1:
                 result.solverName = "Approximation";
                 result.result= KnapsackApproximation(truck, pallets);
-                KnapsackApproximation(truck, pallets);
                 break;
             case 2:
                 result.solverName = "Backtracking";
@@ -103,11 +101,10 @@ void Menu::solverSelectionMenu() {
                 throw std::invalid_argument("Invalid selection");
         }
 
-        // Capture the time taken for the solver
+
         auto end = std::chrono::high_resolution_clock::now();
         result.duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
 
-        // Store the result in the map, using the dataset identifier as the key
         resultsMap[currentDatasetId].push_back(result);
 
         std::cout << "Solver selected successfully!\n";
@@ -136,7 +133,6 @@ void Menu::displayResults() {
         std::cout << "Execution Time: " << result.duration.count() << " seconds\n";
         std::cout << "----------------------------------------\n";
     }
-
     pressToContinue();
 }
 

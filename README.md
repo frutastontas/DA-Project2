@@ -32,6 +32,7 @@
 - A 2D vector `dp[w][k]` is used to store the maximum profit at each state.
 - A 3D vector `chosen[w][k]` keeps track of which pallet IDs were used to reach each state.
 - These allow efficient computation and reconstruction of the solution.
+- Use the 2D table instead of 3D because of memory efficiency, despite being less intuitive.
 
 #### Time and Space Complexity
 - Time Complexity: O(n * W * K)
