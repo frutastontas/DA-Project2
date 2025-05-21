@@ -12,9 +12,8 @@ void Menu::showMainMenu() {
 
         std::cout << "1. Load Data Files\n"
                   << "2. Select Solver Algorithm\n"
-                  << "3. Compare to optimal\n"
-                  << "4. View Results\n"
-                  << "6. Exit\n\n"
+                  << "3. View Results\n"
+                  << "4. Exit\n\n"
                   << "Select option: ";
 
         int choice;
@@ -28,10 +27,10 @@ void Menu::showMainMenu() {
             case 2:
                 solverSelectionMenu();
                 break;
-            case 4:
+            case 3:
                 displayResults();  // View results
                 break;
-            case 6:
+            case 4:
                 exitProgram();
                 return;
             default:
@@ -163,8 +162,8 @@ void Menu::loadData() {
         return;
     }
 
-    std::string truckFile = "../data/datasets-extra/TruckAndPallets_" + currentDatasetId + ".csv";
-    std::string palletFile = "../data/datasets-extra/Pallets_" + currentDatasetId + ".csv";
+    std::string truckFile = "../datasets/TruckAndPallets_" + currentDatasetId + ".csv";
+    std::string palletFile = "../datasets/Pallets_" + currentDatasetId + ".csv";
 
     try {
         this->truck = DataParser::parseTruck(truckFile);

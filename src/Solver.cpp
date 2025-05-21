@@ -1,6 +1,10 @@
 
 #include "Solver.h"
-
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <chrono>
+#include <thread>
 #include <algorithm>
 
 /**
@@ -184,11 +188,13 @@ int solveCase1(Truck truck, const std::vector<Pallet>& pallets){
     backtrack(pallets, truck, 0, 0, 0, 0, currentCombo, bestCombo, bestProfit);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
+    std::cout << "IDs of pallets used: ";
     for (const int pallet : bestCombo) {
         std::cout<<pallet<<",";
     }
+    std::cout << std::endl;
     std::cout << "Time taken by solveCase1: " << duration.count() << " seconds\n";
-    std::cout<<bestProfit<<std::endl;
+    std::cout<<"Best Total Profit "<<bestProfit<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
     return bestProfit;
 }
@@ -202,11 +208,13 @@ int solveCase2(Truck truck, std::vector<Pallet>& pallets){
     backtrackWithBound(pallets, truck, 0, 0, 0, 0, currentCombo, bestCombo, bestProfit);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
+    std::cout << "IDs of pallets used: ";
     for (const int pallet : bestCombo) {
         std::cout<<pallet<<",";
     }
+    std::cout << std::endl;
     std::cout << "Time taken by solveCase2: " << duration.count() << " seconds\n";
-    std::cout<<bestProfit<<std::endl;
+    std::cout<< "Best Total Profit "<<bestProfit<<std::endl;
     std::this_thread::sleep_for(std::chrono::seconds(2));
     return bestProfit;
 }
@@ -317,12 +325,6 @@ int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector
     }
     return bestProfit;
 }
-
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <chrono>
-#include <thread>
 
 /**
  * @brief Runs two greedy heuristics: by profit and by profit/weight ratio.
