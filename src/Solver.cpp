@@ -342,6 +342,7 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
     std::vector<int> bestComboRatio;
 
     std::vector<Pallet> copy_pallets = pallets;
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     // Sort by profit/weight ratio and run greedy
     std::sort(copy_pallets.begin(), copy_pallets.end(), sortByRatio);
@@ -365,11 +366,14 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
         bestCombo = bestComboRatio;
         strategy = "Ratio-based Greedy";
     }
+    auto endTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = endTime - startTime;
 
     // Print results
     std::cout << "=== Approximation Result ===\n";
     std::cout << "Strategy used: " << strategy << std::endl;
     std::cout << "Total profit: " << bestResult << std::endl;
+    std::cout << "Time Taken by Solver:" << elapsed.count() << std::endl;
     std::cout << "Pallets used (IDs): ";
     int totalWeight = 0;
     for (int id : bestCombo) {
