@@ -221,59 +221,71 @@ int solveCase2(Truck truck, std::vector<Pallet>& pallets){
 
 
 /**
- * @brief Solves the knapsack problem using dynamic programming.
+ * @brief Solves the 0/1 knapsack problem using dynamic programming.
  *
- * Uses a 2D DP table where dp[w][k] stores the max profit for weight w and k pallets.
+ * This implementation uses a 2D DP table where dp[w][k] stores the maximum profit
+ * achievable with total weight w using the first k pallets (items).
  *
- * Time Complexity: O(n * W * K) — n: pallets, W: weight limit, K: pallet count limit.
- * Space Complexity: O(W * K) — space for DP table.
+ * Unlike previous versions, this function does NOT impose a limit on the number of
+ * pallets that can be selected—only their cumulative weight must respect the truck's capacity.
  *
- * @param pallets List of pallets.
- * @param truck Truck capacity constraints.
+ * Time Complexity: O(n * W)
+ *   - n: Number of pallets
+ *   - W: Maximum weight capacity of the truck
+ *
+ * Space Complexity: O(n * W)
+ *   - For storing DP results and tracking chosen combinations.
+ *
+ * @param pallets Vector of Pallet objects available for selection.
+ * @param truck A Truck object containing the maximum weight capacity.
+ * @return The maximum achievable profit under the truck's weight constraint.
  */
 int solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     auto start = std::chrono::high_resolution_clock::now();
     int maxW = truck.getMaxCapacity();
-    int maxP = truck.getPalletsCapacity();
+    int n = pallets.size();
 
-    std::vector<std::vector<int>> dp(maxW + 1, std::vector<int>(maxP + 1, 0));
-    std::vector<std::vector<std::vector<int>>> chosen(maxW + 1, std::vector<std::vector<int>>(maxP + 1));
+    // dp[w][k] = max profit using first k items and capacity w
+    std::vector<std::vector<int>> dp(maxW + 1, std::vector<int>(n + 1, 0));
+    std::vector<std::vector<std::vector<int>>> chosen(maxW + 1, std::vector<std::vector<int>>(n + 1));
 
     int bestProfit = 0;
     int bestW = 0, bestK = 0;
 
-    for (const Pallet& p : pallets) {
-        for (int w = maxW; w >= p.getWeight(); --w) {
-            for (int k = maxP; k >= 1; --k) {
-                int prevProfit = dp[w - p.getWeight()][k - 1];
-                int newProfit = prevProfit + p.getProfit();
+    for (int k = 1; k <= n; ++k) {
+        const Pallet& p = pallets[k - 1];
+        int weight = p.getWeight();
+        int profit = p.getProfit();
+        int id = p.getId();
 
+        for (int w = 0; w <= maxW; ++w) {
+            // Not take current pallet
+            dp[w][k] = dp[w][k - 1];
+            chosen[w][k] = chosen[w][k - 1];
+
+            // Try taking the pallet if it fits
+            if (w >= weight) {
+                int newProfit = dp[w - weight][k - 1] + profit;
                 if (newProfit > dp[w][k]) {
                     dp[w][k] = newProfit;
-                    chosen[w][k] = chosen[w - p.getWeight()][k - 1];
-                    chosen[w][k].push_back(p.getId());
-                }
-                else if (newProfit == dp[w][k]) {
-                    std::vector<int> newCombo = chosen[w - p.getWeight()][k - 1];
-                    newCombo.push_back(p.getId());
-
-                    // Tie-breaking: prefer fewer pallets, then lexicographically smaller combo
-                    if (newCombo.size() < chosen[w][k].size() ||
-                        (newCombo.size() == chosen[w][k].size() && newCombo < chosen[w][k])) {
+                    chosen[w][k] = chosen[w - weight][k - 1];
+                    chosen[w][k].push_back(id);
+                } else if (newProfit == dp[w][k]) {
+                    std::vector<int> newCombo = chosen[w - weight][k - 1];
+                    newCombo.push_back(id);
+                    if (newCombo < chosen[w][k]) {
                         chosen[w][k] = newCombo;
                     }
                 }
+            }
 
-                // Update best solution with tie-breaking
-                if (dp[w][k] > bestProfit ||
-                    (dp[w][k] == bestProfit &&
-                     (chosen[w][k].size() < chosen[bestW][bestK].size() ||
-                      (chosen[w][k].size() == chosen[bestW][bestK].size() &&
-                       chosen[w][k] < chosen[bestW][bestK])))) {
-                    bestProfit = dp[w][k];
-                    bestW = w;
-                    bestK = k;
-                }
+            // Track best solution
+            if (dp[w][k] > bestProfit ||
+                (dp[w][k] == bestProfit &&
+                 chosen[w][k] < chosen[bestW][bestK])) {
+                bestProfit = dp[w][k];
+                bestW = w;
+                bestK = k;
             }
         }
     }

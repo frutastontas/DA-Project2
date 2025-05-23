@@ -108,9 +108,9 @@ $(function(){initNavTree('_solver_8cpp.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_solver_8h_source.html">Solver.h</a>&quot;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;thread&gt;</code><br />
 </div><table class="memberdecls">
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a6abe9130e312988bd715eb0178497483" id="r_a6abe9130e312988bd715eb0178497483"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6abe9130e312988bd715eb0178497483">solveCase2</a> (<a class="el" href="class_truck.html">Truck</a> truck, std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;pallets)</td></tr>
 <tr class="separator:a6abe9130e312988bd715eb0178497483"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30cf1da2cc6e760767e789390dfadcb9" id="r_a30cf1da2cc6e760767e789390dfadcb9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30cf1da2cc6e760767e789390dfadcb9">solveDP</a> (const std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;pallets, const <a class="el" href="class_truck.html">Truck</a> &amp;truck)</td></tr>
-<tr class="memdesc:a30cf1da2cc6e760767e789390dfadcb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the knapsack problem using dynamic programming.  <br /></td></tr>
+<tr class="memdesc:a30cf1da2cc6e760767e789390dfadcb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves the 0/1 knapsack problem using dynamic programming.  <br /></td></tr>
 <tr class="separator:a30cf1da2cc6e760767e789390dfadcb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0accd3d98716a69f0d15a817cfc773fb" id="r_a0accd3d98716a69f0d15a817cfc773fb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0accd3d98716a69f0d15a817cfc773fb">GreedyKnapsack</a> (const <a class="el" href="class_truck.html">Truck</a> &amp;truck, std::vector&lt; <a class="el" href="class_pallet.html">Pallet</a> &gt; &amp;pallets, std::vector&lt; int &gt; &amp;bestCombo)</td></tr>
 <tr class="memdesc:a0accd3d98716a69f0d15a817cfc773fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Greedy heuristic for approximate knapsack solution.  <br /></td></tr>
@@ -478,16 +478,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Solves the knapsack problem using dynamic programming. </p>
-<p>Uses a 2D DP table where dp[w][k] stores the max profit for weight w and k pallets.</p>
-<p>Time Complexity: O(n * W * K) — n: pallets, W: weight limit, K: pallet count limit. Space Complexity: O(W * K) — space for DP table.</p>
+<p>Solves the 0/1 knapsack problem using dynamic programming. </p>
+<p>This implementation uses a 2D DP table where dp[w][k] stores the maximum profit achievable with total weight w using the first k pallets (items).</p>
+<p>Unlike previous versions, this function does NOT impose a limit on the number of pallets that can be selected—only their cumulative weight must respect the truck's capacity.</p>
+<p>Time Complexity: O(n * W)</p><ul>
+<li>n: Number of pallets</li>
+<li>W: Maximum weight capacity of the truck</li>
+</ul>
+<p>Space Complexity: O(n * W)</p><ul>
+<li>For storing DP results and tracking chosen combinations.</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pallets</td><td>List of pallets. </td></tr>
-    <tr><td class="paramname">truck</td><td><a class="el" href="class_truck.html">Truck</a> capacity constraints. </td></tr>
+    <tr><td class="paramname">pallets</td><td>Vector of <a class="el" href="class_pallet.html">Pallet</a> objects available for selection. </td></tr>
+    <tr><td class="paramname">truck</td><td>A <a class="el" href="class_truck.html">Truck</a> object containing the maximum weight capacity. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The maximum achievable profit under the truck's weight constraint. </dd></dl>
 
 </div>
 </div>

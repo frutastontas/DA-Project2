@@ -14,7 +14,7 @@ int \mbox{\hyperlink{_solver_8h_a379a3d1f4ab332a7696190e116c3f8ac}{solve\+Case1}
 int \mbox{\hyperlink{_solver_8h_a6abe9130e312988bd715eb0178497483}{solve\+Case2}} (\mbox{\hyperlink{class_truck}{Truck}} truck, std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
 \item 
 int \mbox{\hyperlink{_solver_8h_a30cf1da2cc6e760767e789390dfadcb9}{solve\+DP}} (const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets, const \mbox{\hyperlink{class_truck}{Truck}} \&truck)
-\begin{DoxyCompactList}\small\item\em Solves the knapsack problem using dynamic programming. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Solves the 0/1 knapsack problem using dynamic programming. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_solver_8h_a6f3d34f02430d9d5e97d2894fceec2cf}{Knapsack\+Approximation}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
 \begin{DoxyCompactList}\small\item\em Runs two greedy heuristics\+: by profit and by profit/weight ratio. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{_solver_8h_ad4c5b325fd4b2e03494778ee17454915}{solve\+Hybrid\+Knapsack}} (const \mbox{\hyperlink{class_truck}{Truck}} \&truck, const std\+::vector$<$ \mbox{\hyperlink{class_pallet}{Pallet}} $>$ \&pallets)
@@ -63,19 +63,33 @@ int solve\+DP (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ \mbox{\hype
 
 
 
-Solves the knapsack problem using dynamic programming. 
+Solves the 0/1 knapsack problem using dynamic programming. 
 
-Uses a 2D DP table where dp\mbox{[}w\mbox{]}\mbox{[}k\mbox{]} stores the max profit for weight w and k pallets.
+This implementation uses a 2D DP table where dp\mbox{[}w\mbox{]}\mbox{[}k\mbox{]} stores the maximum profit achievable with total weight w using the first k pallets (items).
 
-Time Complexity\+: O(n \texorpdfstring{$\ast$}{*} W \texorpdfstring{$\ast$}{*} K) — n\+: pallets, W\+: weight limit, K\+: pallet count limit. Space Complexity\+: O(\+W \texorpdfstring{$\ast$}{*} K) — space for DP table.
+Unlike previous versions, this function does NOT impose a limit on the number of pallets that can be selected—only their cumulative weight must respect the truck\textquotesingle{}s capacity.
+
+Time Complexity\+: O(n \texorpdfstring{$\ast$}{*} W)
+\begin{DoxyItemize}
+\item n\+: Number of pallets
+\item W\+: Maximum weight capacity of the truck
+\end{DoxyItemize}
+
+Space Complexity\+: O(n \texorpdfstring{$\ast$}{*} W)
+\begin{DoxyItemize}
+\item For storing DP results and tracking chosen combinations.
+\end{DoxyItemize}
 
 
 \begin{DoxyParams}{Parameters}
-{\em pallets} & List of pallets. \\
+{\em pallets} & Vector of \doxylink{class_pallet}{Pallet} objects available for selection. \\
 \hline
-{\em truck} & \doxylink{class_truck}{Truck} capacity constraints. \\
+{\em truck} & A \doxylink{class_truck}{Truck} object containing the maximum weight capacity. \\
 \hline
 \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The maximum achievable profit under the truck\textquotesingle{}s weight constraint. 
+\end{DoxyReturn}
 \Hypertarget{_solver_8h_ad4c5b325fd4b2e03494778ee17454915}\index{Solver.h@{Solver.h}!solveHybridKnapsack@{solveHybridKnapsack}}
 \index{solveHybridKnapsack@{solveHybridKnapsack}!Solver.h@{Solver.h}}
 \doxysubsubsection{\texorpdfstring{solveHybridKnapsack()}{solveHybridKnapsack()}}
