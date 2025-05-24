@@ -129,7 +129,8 @@ void Menu::displayResults() {
     for (const auto& result : resultsMap[datasetId]) {
         std::cout << "Solver: " << result.solverName << "\n";
         std::cout << "Result: " << result.result << "\n";
-        std::cout << "Execution Time: " << result.duration.count() << " seconds\n";
+        //1
+        //std::cout << "Execution Time: " << result.duration.count() << " seconds\n";
         std::cout << "----------------------------------------\n";
     }
     pressToContinue();
