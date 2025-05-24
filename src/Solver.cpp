@@ -368,7 +368,7 @@ int GreedyKnapsack(const Truck& truck, std::vector<Pallet>& pallets, std::vector
  * @param truck Truck capacity constraints.
  * @param pallets List of available pallets.
  */
-int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets) {
+int KnapsackApproximation(const Truck& truck, const std::vector<Pallet>& pallets) {
     std::vector<int> bestComboProfit;
     std::vector<int> bestComboRatio;
 
@@ -383,12 +383,26 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
     std::sort(copy_pallets.begin(), copy_pallets.end(), sortByProfit);
     int ResultProfit = GreedyKnapsack(truck, copy_pallets, bestComboProfit);
 
-    // Decide which result is better
+    // Decide which result is better with tie-breaking
     std::vector<int> bestCombo;
     int bestResult;
     std::string strategy;
 
-    if (ResultProfit >= ResultRatio) {
+    // Tie-break logic
+    bool pickProfit = false;
+
+    if (ResultProfit > ResultRatio) {
+        pickProfit = true;
+    } else if (ResultProfit == ResultRatio) {
+        if (bestComboProfit.size() < bestComboRatio.size()) {
+            pickProfit = true;
+        } else if (bestComboProfit.size() == bestComboRatio.size() &&
+                   bestComboProfit < bestComboRatio) {
+            pickProfit = true;
+        }
+    }
+
+    if (pickProfit) {
         bestResult = ResultProfit;
         bestCombo = bestComboProfit;
         strategy = "Profit-based Greedy";
@@ -397,6 +411,7 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
         bestCombo = bestComboRatio;
         strategy = "Ratio-based Greedy";
     }
+
     auto endTime = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = endTime - startTime;
 
@@ -404,14 +419,12 @@ int KnapsackApproximation(const Truck& truck,const std::vector<Pallet>& pallets)
     std::cout << "=== Approximation Result ===\n";
     std::cout << "Strategy used: " << strategy << std::endl;
     std::cout << "Total profit: " << bestResult << std::endl;
-    std::cout << "Time Taken by Solver:" << elapsed.count() << std::endl;
+    std::cout << "Time Taken by Solver: " << elapsed.count() << " seconds\n";
     std::cout << "Pallets used (IDs): ";
-    int totalWeight = 0;
     for (int id : bestCombo) {
         std::cout << id << " ";
     }
     std::cout << "\n";
-
 
     std::this_thread::sleep_for(std::chrono::seconds(2));
     return bestResult;
