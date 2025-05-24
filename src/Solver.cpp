@@ -245,7 +245,6 @@ int solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     int maxW = truck.getMaxCapacity();
     int n = pallets.size();
 
-    // dp[w][k] = max profit using first k items and capacity w
     std::vector<std::vector<int>> dp(maxW + 1, std::vector<int>(n + 1, 0));
     std::vector<std::vector<std::vector<int>>> chosen(maxW + 1, std::vector<std::vector<int>>(n + 1));
 
@@ -259,30 +258,49 @@ int solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
         int id = p.getId();
 
         for (int w = 0; w <= maxW; ++w) {
-            // Not take current pallet
+            // Default: don't take the item
             dp[w][k] = dp[w][k - 1];
             chosen[w][k] = chosen[w][k - 1];
 
-            // Try taking the pallet if it fits
+            // Try taking the item if it fits
             if (w >= weight) {
                 int newProfit = dp[w - weight][k - 1] + profit;
+                std::vector<int> newCombo = chosen[w - weight][k - 1];
+                newCombo.push_back(id);
+
+                // Compare state with tie-break
+                bool better = false;
+
                 if (newProfit > dp[w][k]) {
-                    dp[w][k] = newProfit;
-                    chosen[w][k] = chosen[w - weight][k - 1];
-                    chosen[w][k].push_back(id);
+                    better = true;
                 } else if (newProfit == dp[w][k]) {
-                    std::vector<int> newCombo = chosen[w - weight][k - 1];
-                    newCombo.push_back(id);
-                    if (newCombo < chosen[w][k]) {
-                        chosen[w][k] = newCombo;
+                    if (newCombo.size() < chosen[w][k].size()) {
+                        better = true;
+                    } else if (newCombo.size() == chosen[w][k].size() && newCombo < chosen[w][k]) {
+                        better = true;
                     }
+                }
+
+                if (better) {
+                    dp[w][k] = newProfit;
+                    chosen[w][k] = newCombo;
                 }
             }
 
-            // Track best solution
-            if (dp[w][k] > bestProfit ||
-                (dp[w][k] == bestProfit &&
-                 chosen[w][k] < chosen[bestW][bestK])) {
+            // Track best solution with same tie-break logic
+            bool better = false;
+            if (dp[w][k] > bestProfit) {
+                better = true;
+            } else if (dp[w][k] == bestProfit) {
+                if (chosen[w][k].size() < chosen[bestW][bestK].size()) {
+                    better = true;
+                } else if (chosen[w][k].size() == chosen[bestW][bestK].size() &&
+                           chosen[w][k] < chosen[bestW][bestK]) {
+                    better = true;
+                }
+            }
+
+            if (better) {
                 bestProfit = dp[w][k];
                 bestW = w;
                 bestK = k;
@@ -304,6 +322,7 @@ int solveDP(const std::vector<Pallet>& pallets, const Truck& truck) {
     std::this_thread::sleep_for(std::chrono::seconds(2));
     return bestProfit;
 }
+
 
 
 /**
