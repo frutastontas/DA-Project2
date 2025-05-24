@@ -9,7 +9,10 @@
    ![image](https://github.com/user-attachments/assets/fc6f35e7-93b9-4d7e-a43c-f191b557013a)
 
 
- - Finally, we implemented a feature that allows the user to give an id and check the computations done so far. **Print example**
+ - Finally, we implemented a feature that allows the user to give an id and check the computations done so far.
+
+   ![image](https://github.com/user-attachments/assets/2035ff20-241e-464d-b9aa-5e7ac73e9d56)
+
 
 ## Different Strategies
 ### Backtracking
