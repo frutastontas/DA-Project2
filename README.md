@@ -1,7 +1,14 @@
 # DA-Project2
 ### Menu Interface
- - We made a menu that is able to load the files and data after being given a specific identifier for that data. **Put an example print**
+ - We made a menu that is able to load the files and data after being given a specific identifier for that data.
+   
+   ![image](https://github.com/user-attachments/assets/5c43c69e-a855-48b4-81dc-7b430d239303)
+
  - It also allows the user to select a specific solver, that they want to run for that dataset.
+
+   ![image](https://github.com/user-attachments/assets/fc6f35e7-93b9-4d7e-a43c-f191b557013a)
+
+
  - Finally, we implemented a feature that allows the user to give an id and check the computations done so far. **Print example**
 
 ## Different Strategies
