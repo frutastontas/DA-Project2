@@ -45,7 +45,7 @@
 - Use the 2D table instead of 3D because of memory efficiency, despite being less intuitive.
 
 #### Time and Space Complexity
-- Time Complexity: O(n * W * K)
+- Time Complexity: O(W * K)
 - Space Complexity: O(W * K)
 
 #### Notes
